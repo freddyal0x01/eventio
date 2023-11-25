@@ -10,6 +10,10 @@
   "prisma": {
     "schema": "db/schema.prisma"
   },
+  "prettier": {
+    "semi": true,
+    "printWidth": 100
+  },
   "dependencies": {
     "@blitzjs/auth": "2.0.0-beta.35",
     "@blitzjs/next": "2.0.0-beta.35",
@@ -36,6 +40,8 @@
     "@vitejs/plugin-react": "2.2.0",
     "husky": "8.0.2",
     "jsdom": "20.0.3",
+    "prettier": "^3.1.0",
+    "prettier-plugin-prisma": "5.0.0",
     "lint-staged": "13.0.3",
     "pretty-quick": "3.1.3",
     "preview-email": "3.0.7",
