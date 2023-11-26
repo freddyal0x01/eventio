@@ -3,6 +3,7 @@ import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import logout from "src/features/auth/mutations/logout";
 import { useMutation } from "@blitzjs/rpc";
 import { Routes } from "@blitzjs/next";
+import { Button } from "@mantine/core";
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -15,13 +16,13 @@ export const UserInfo = () => {
   if (currentUser) {
     return (
       <>
-        <button
+        <Button
           onClick={async () => {
             await logoutMutation();
           }}
         >
           Logout
-        </button>
+        </Button>
         <div>
           User id: <code>{currentUser.id}</code>
           <br />
