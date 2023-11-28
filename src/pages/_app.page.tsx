@@ -1,6 +1,6 @@
-import { ErrorBoundary, AppProps } from "@blitzjs/next";
+import { AppProps, ErrorBoundary } from "@blitzjs/next";
 import { MantineProvider } from "@mantine/core";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { withBlitz } from "src/blitz-client";
 import { RootErrorFallback } from "src/core/components/RootErrorFallback";
 import "src/styles/globals.css";

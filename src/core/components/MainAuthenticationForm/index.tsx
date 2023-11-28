@@ -1,24 +1,24 @@
-import { useToggle, upperFirst } from "@mantine/hooks";
-import { useForm } from "@mantine/form";
-import {
-  TextInput,
-  PasswordInput,
-  Text,
-  Paper,
-  Group,
-  PaperProps,
-  Button,
-  Divider,
-  Checkbox,
-  Anchor,
-  Stack,
-} from "@mantine/core";
-import { GoogleButton, TwitterButton } from "./SocialButtons";
 import { useMutation } from "@blitzjs/rpc";
-import { FORM_ERROR } from "../Form";
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  Divider,
+  Group,
+  Paper,
+  PaperProps,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { upperFirst, useToggle } from "@mantine/hooks";
 import { AuthenticationError } from "blitz";
 import login from "src/features/auth/mutations/login";
 import signup from "src/features/auth/mutations/signup";
+import { FORM_ERROR } from "../Form";
+import { GoogleButton, TwitterButton } from "./SocialButtons";
 
 export function AuthenticationForm(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);

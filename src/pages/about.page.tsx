@@ -1,5 +1,4 @@
 import { BlitzPage } from "@blitzjs/next";
-import React from "react";
 import Layout from "src/core/layouts/Layout";
 
 const AboutPage: BlitzPage = () => {

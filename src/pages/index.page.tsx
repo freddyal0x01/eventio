@@ -1,9 +1,9 @@
-import Layout from "src/core/layouts/Layout";
 import { BlitzPage } from "@blitzjs/next";
-import { UserInfo } from "src/core/components/UserInfo";
-import { AuthenticationForm } from "src/core/components/MainAuthenticationForm";
-import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { Vertical } from "mantine-layout-components";
+import { AuthenticationForm } from "src/core/components/MainAuthenticationForm";
+import { UserInfo } from "src/core/components/UserInfo";
+import Layout from "src/core/layouts/Layout";
+import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 
 const Home: BlitzPage = () => {
   const currentUser = useCurrentUser();

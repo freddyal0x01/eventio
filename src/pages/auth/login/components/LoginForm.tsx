@@ -1,13 +1,12 @@
+import { Routes } from "@blitzjs/next";
+import { useMutation } from "@blitzjs/rpc";
+import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { AuthenticationError, PromiseReturnType } from "blitz";
+import { Vertical } from "mantine-layout-components";
 import Link from "next/link";
 import { FORM_ERROR } from "src/core/components/Form";
 import login from "src/features/auth/mutations/login";
-import { Login } from "src/features/auth/schemas";
-import { useMutation } from "@blitzjs/rpc";
-import { Routes } from "@blitzjs/next";
-import { useForm } from "@mantine/form";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { Vertical } from "mantine-layout-components";
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void;

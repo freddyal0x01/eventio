@@ -1,11 +1,10 @@
-import Layout from "src/core/layouts/Layout";
-import { FORM_ERROR } from "src/core/components/Form";
-import { ForgotPassword } from "src/features/auth/schemas";
-import forgotPassword from "src/features/auth/mutations/forgotPassword";
-import { useMutation } from "@blitzjs/rpc";
 import { BlitzPage } from "@blitzjs/next";
+import { useMutation } from "@blitzjs/rpc";
 import { Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { FORM_ERROR } from "src/core/components/Form";
+import Layout from "src/core/layouts/Layout";
+import forgotPassword from "src/features/auth/mutations/forgotPassword";
 
 const ForgotPasswordPage: BlitzPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword);
