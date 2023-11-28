@@ -1,21 +1,33 @@
 import { BlitzLayout, Routes } from "@blitzjs/next";
 import { useMutation } from "@blitzjs/rpc";
-import { Anchor, AppShell, Button, Footer, Header, Text } from "@mantine/core";
+import {
+  Anchor,
+  AppShell,
+  Button,
+  Footer,
+  Header,
+  Loader,
+  Text,
+} from "@mantine/core";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
 import React, { Suspense } from "react";
 import logout from "src/features/auth/mutations/logout";
+import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 
 type Props = {
   title?: string;
   children?: React.ReactNode;
   maxWidth?: number;
 };
+
 const Layout: BlitzLayout<Props> = ({ title, maxWidth = 800, children }) => {
   const thisYear = new Date().getFullYear();
 
   const [logoutMutation] = useMutation(logout);
+
+  const user = useCurrentUser();
 
   return (
     <>
@@ -44,15 +56,17 @@ const Layout: BlitzLayout<Props> = ({ title, maxWidth = 800, children }) => {
                 Eventio
               </Anchor>
 
-              <Button
-                size="xs"
-                variant="light"
-                onClick={async () => {
-                  await logoutMutation();
-                }}
-              >
-                Logout
-              </Button>
+              {user && (
+                <Button
+                  size="xs"
+                  variant="light"
+                  onClick={async () => {
+                    await logoutMutation();
+                  }}
+                >
+                  Logout
+                </Button>
+              )}
             </Horizontal>
           </Header>
         }
@@ -77,7 +91,7 @@ const Layout: BlitzLayout<Props> = ({ title, maxWidth = 800, children }) => {
         {/* Your application here */}
 
         <Vertical fullW fullH>
-          <Suspense fallback="Loading...">{children}</Suspense>
+          <Suspense fallback={<Loader />}>{children}</Suspense>
         </Vertical>
       </AppShell>
     </>
