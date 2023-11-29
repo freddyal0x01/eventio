@@ -2,7 +2,8 @@ import { hash256 } from "@blitzjs/auth";
 import { SecurePassword } from "@blitzjs/auth/secure-password";
 import { resolver } from "@blitzjs/rpc";
 import db from "db";
-import { ResetPassword } from "../schemas";
+import { z } from "zod";
+import { password } from "../schemas";
 import login from "./login";
 
 export class ResetPasswordError extends Error {
@@ -10,8 +11,19 @@ export class ResetPasswordError extends Error {
   message = "Reset password link is invalid or it has expired.";
 }
 
+let Input = z
+  .object({
+    password: password,
+    passwordConfirmation: password,
+    token: z.string(),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "Passwords don't match",
+    path: ["passwordConfirmation"], // set the path of the error
+  });
+
 export default resolver.pipe(
-  resolver.zod(ResetPassword),
+  resolver.zod(Input),
   async ({ password, token }, ctx) => {
     // 1. Try to find this token in the database
     const hashedToken = hash256(token);

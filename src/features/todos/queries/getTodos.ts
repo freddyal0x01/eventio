@@ -8,8 +8,7 @@ const Input = z.object({
 export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
-  async ({ search }) => {
-    console.log(`User is searching for todos: ${search}`);
+  async () => {
     const todos = [
       { title: "buy bread" },
       { title: "buy a turtle" },

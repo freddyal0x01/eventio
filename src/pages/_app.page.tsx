@@ -1,5 +1,6 @@
 import { AppProps, ErrorBoundary } from "@blitzjs/next";
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { Suspense } from "react";
 import { withBlitz } from "src/blitz-client";
 import { RootErrorFallback } from "src/core/components/RootErrorFallback";
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           colorScheme: "dark",
         }}
       >
+        <Notifications position="top-right" />
         <Suspense fallback="Loading...">
           {<Component {...pageProps} />}
         </Suspense>
