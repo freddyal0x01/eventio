@@ -9,8 +9,9 @@ const Input = z.object({
 export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
-  async (params) => {
+  async (params, ctx) => {
     const { todoTitle } = params;
+    const userId = ctx.session.userId;
     return "todo created";
   },
 );

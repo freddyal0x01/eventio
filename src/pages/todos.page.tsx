@@ -9,7 +9,9 @@ import addTodo from "src/features/todos/mutations/addTodo";
 import getTodos from "src/features/todos/queries/getTodos";
 
 const Todos = () => {
-  const [todos] = useQuery(getTodos, {});
+  const [todos] = useQuery(getTodos, {
+    search: "bread",
+  });
 
   const [$addTodo] = useMutation(addTodo, {
     onSuccess: (result) => {
@@ -26,6 +28,7 @@ const Todos = () => {
         onClick={async () => {
           const result = await $addTodo({
             todoTitle: "Buy some bread",
+            id: "1234",
           });
         }}
       >
