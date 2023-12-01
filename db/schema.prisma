@@ -10,7 +10,17 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// --------------------------------------
+model Todo {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  done  Boolean @default(false)
+
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+}
 
 model User {
   id             Int      @id @default(autoincrement())
@@ -23,6 +33,7 @@ model User {
 
   tokens   Token[]
   sessions Session[]
+  todos    Todo[]
 }
 
 model Session {

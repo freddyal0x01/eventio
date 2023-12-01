@@ -1,34 +1,38 @@
 import { BlitzPage } from "@blitzjs/next";
 import { useMutation, useQuery } from "@blitzjs/rpc";
-import { Button, List, Loader, Text } from "@mantine/core";
+import { Button, Input, List, Loader, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { Vertical } from "mantine-layout-components";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import Layout from "src/core/layouts/Layout";
 import addTodo from "src/features/todos/mutations/addTodo";
 import getTodos from "src/features/todos/queries/getTodos";
 
 const Todos = () => {
-  const [todos] = useQuery(getTodos, {
-    search: "bread",
-  });
+  const [todos] = useQuery(getTodos, {});
+
+  const [todoTitle, setTodoTitle] = useState("");
 
   const [$addTodo] = useMutation(addTodo, {
-    onSuccess: (result) => {
+    onSuccess: (todo) => {
       notifications.show({
         title: "Mutation Successful",
-        message: result,
+        message: `Created todo: ${todo.title}`,
       });
     },
   });
 
   return (
     <Vertical>
+      <Input
+        value={todoTitle}
+        onChange={(e) => setTodoTitle(e.currentTarget.value)}
+        placeholder="Enter todo title"
+      />
       <Button
         onClick={async () => {
-          const result = await $addTodo({
-            todoTitle: "Buy some bread",
-            id: "1234",
+          await $addTodo({
+            todoTitle: todoTitle,
           });
         }}
       >
