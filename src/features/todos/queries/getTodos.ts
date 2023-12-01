@@ -7,8 +7,12 @@ const Input = z.object({});
 export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
-  async () => {
-    const todos = await db.todo.findMany({});
+  async ({}, { session: { userId } }) => {
+    const todos = await db.todo.findMany({
+      where: {
+        userId,
+      },
+    });
     return todos;
   },
 );

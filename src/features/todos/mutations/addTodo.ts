@@ -17,8 +17,16 @@ export default resolver.pipe(
     const todo = db.todo.create({
       data: {
         title: todoTitle,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
+
+    console.log(`todo: ${todo}`);
+
     return todo;
   },
 );
