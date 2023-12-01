@@ -7,10 +7,11 @@ import { Suspense, useState } from "react";
 import Layout from "src/core/layouts/Layout";
 import addTodo from "src/features/todos/mutations/addTodo";
 import getTodos from "src/features/todos/queries/getTodos";
+import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 
 const Todos = () => {
+  const user = useCurrentUser();
   const [todos] = useQuery(getTodos, {});
-
   const [todoTitle, setTodoTitle] = useState("");
 
   const [$addTodo] = useMutation(addTodo, {
@@ -24,6 +25,7 @@ const Todos = () => {
 
   return (
     <Vertical>
+      {user && <Text>Hello {user.name}, here are you todos:</Text>}
       <Input
         value={todoTitle}
         onChange={(e) => setTodoTitle(e.currentTarget.value)}
