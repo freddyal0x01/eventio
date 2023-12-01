@@ -1,7 +1,6 @@
 import { BlitzPage } from "@blitzjs/next";
 import { Vertical } from "mantine-layout-components";
 import { AuthenticationForm } from "src/core/components/MainAuthenticationForm";
-import { UserInfo } from "src/core/components/UserInfo";
 import Layout from "src/core/layouts/Layout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 
@@ -10,7 +9,6 @@ const Home: BlitzPage = () => {
 
   return (
     <Layout title="Home">
-      {currentUser && <UserInfo />}
       {!currentUser && (
         <Vertical center fullW fullH>
           <AuthenticationForm />
