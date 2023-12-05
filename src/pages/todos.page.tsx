@@ -5,6 +5,7 @@ import { Horizontal, Vertical } from "mantine-layout-components";
 import { Suspense, useState } from "react";
 import Layout from "src/core/layouts/Layout";
 import addTodo from "src/features/todos/mutations/addTodo";
+import cleanCompleted from "src/features/todos/mutations/cleanCompleted";
 import toggleTodo from "src/features/todos/mutations/toggleTodo";
 import getTodos from "src/features/todos/queries/getTodos";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
@@ -32,6 +33,7 @@ const Todos = () => {
   const [todoTitle, setTodoTitle] = useState("");
 
   const [$addTodo] = useMutation(addTodo, {});
+  const [$cleanCompleted] = useMutation(cleanCompleted, {});
 
   return (
     <Vertical>
@@ -50,6 +52,7 @@ const Todos = () => {
       >
         Create a todo
       </Button>
+      <Button onClick={async () => $cleanCompleted({})}>Clean completed</Button>
       <List>
         {todos.map((todo) => (
           <Todo todo={todo} key={todo.id} />
