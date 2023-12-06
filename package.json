@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",
-    "build": "blitz build",
+    "build": "npm run blitz prisma migrate deploy && npm run blitz prisma generate && npm run blitz build",
     "start": "blitz start",
     "db:studio": "blitz prisma studio",
     "db:migrate": "blitz prisma migrate dev"
