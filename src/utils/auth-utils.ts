@@ -1,6 +1,5 @@
 import { SecurePassword } from "@blitzjs/auth/secure-password";
 import { AuthenticationError } from "blitz";
-
 import db from "db";
 import login from "src/features/auth/mutations/login";
 
