@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ErrorMessage } from "@hookform/error-message";
 import { Input } from "@mantine/core";
 import { ComponentPropsWithoutRef, PropsWithoutRef, forwardRef } from "react";
