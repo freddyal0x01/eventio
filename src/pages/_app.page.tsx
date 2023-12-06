@@ -1,5 +1,5 @@
 import { AppProps, ErrorBoundary } from "@blitzjs/next";
-import { MantineProvider } from "@mantine/core";
+import { Loader, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { Suspense } from "react";
 import { withBlitz } from "src/blitz-client";
@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <Notifications position="top-right" />
-        <Suspense fallback="Loading...">
+        <Suspense fallback={<Loader />}>
           {<Component {...pageProps} />}
         </Suspense>
       </MantineProvider>

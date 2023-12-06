@@ -32,7 +32,7 @@ const Todos = () => {
   const [todos] = useQuery(getTodos, {});
   const [todoTitle, setTodoTitle] = useState("");
 
-  const [$addTodo] = useMutation(addTodo, {});
+  const [$addTodo, { isLoading }] = useMutation(addTodo, {});
   const [$cleanCompleted] = useMutation(cleanCompleted, {});
 
   return (
@@ -44,6 +44,7 @@ const Todos = () => {
         placeholder="Enter todo title"
       />
       <Button
+        loading={isLoading}
         onClick={async () => {
           await $addTodo({
             todoTitle: todoTitle,
