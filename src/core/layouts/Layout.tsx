@@ -1,4 +1,4 @@
-import { Routes } from "@blitzjs/next";
+import { ErrorBoundary, Routes } from "@blitzjs/next";
 import { useMutation } from "@blitzjs/rpc";
 import {
   Anchor,
@@ -14,10 +14,12 @@ import { IconUserShield } from "@tabler/icons-react";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Suspense } from "react";
 import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { ReactFC } from "types";
+import { RootErrorFallback } from "../components/RootErrorFallback";
 
 type Props = {
   title?: string;
@@ -30,10 +32,10 @@ const Layout: ReactFC<{
   maxWidth?: number;
 }> = ({ title, maxWidth = 800, children }) => {
   const thisYear = new Date().getFullYear();
-
   const [logoutMutation] = useMutation(logout);
-
   const user = useCurrentUser();
+
+  const router = useRouter();
 
   return (
     <>
@@ -77,6 +79,7 @@ const Layout: ReactFC<{
                     variant="light"
                     onClick={async () => {
                       await logoutMutation();
+                      router.push("/");
                     }}
                   >
                     Logout
@@ -104,10 +107,13 @@ const Layout: ReactFC<{
           },
         })}
       >
-        {/* Your application here */}
-
         <Vertical fullW fullH>
-          <Suspense fallback={<Loader />}>{children}</Suspense>
+          <ErrorBoundary
+            resetKeys={[user]}
+            FallbackComponent={RootErrorFallback}
+          >
+            <Suspense fallback={<Loader />}>{children}</Suspense>
+          </ErrorBoundary>
         </Vertical>
       </AppShell>
     </>
