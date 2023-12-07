@@ -1,13 +1,13 @@
 import { SecurePassword } from "@blitzjs/auth/secure-password";
 import { AuthenticationError } from "blitz";
 import db from "db";
-import { Input } from "src/features/auth/mutations/login";
+import { LoginInput } from "src/features/auth/schemas";
 
 export const authenticateUser = async (
   rawEmail: string,
   rawPassword: string,
 ) => {
-  const { email, password } = Input.parse({
+  const { email, password } = LoginInput.parse({
     email: rawEmail,
     password: rawPassword,
   });
