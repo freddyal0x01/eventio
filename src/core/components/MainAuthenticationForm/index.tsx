@@ -23,12 +23,6 @@ import { GoogleButton, TwitterButton } from "./SocialButtons";
 
 type SignupFormType = z.infer<typeof SignupInput>;
 
-const form = useForm<SignupFormType>({
-  validate: zodResolver(SignupInput),
-  validateInputOnBlur: true,
-  validateInputOnChange: ["terms"],
-});
-
 export const bindCheckboxToForm = (form: any, key: string) => {
   const inputProps = form.getInputProps(key);
 
@@ -45,6 +39,12 @@ export function MainAuthenticationForm(props: PaperProps) {
   const [$signup, { isLoading: isSigningUp }] = useMutation(signup);
 
   const loading = isLoggingIn || isSigningUp;
+
+  const form = useForm<SignupFormType>({
+    validate: zodResolver(SignupInput),
+    validateInputOnBlur: true,
+    validateInputOnChange: ["terms"],
+  });
 
   return (
     <Vertical mih="100vh" center fullW fullH>
