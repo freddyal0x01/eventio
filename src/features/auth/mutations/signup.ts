@@ -26,7 +26,11 @@ export default resolver.pipe(
       select: { id: true, name: true, email: true, role: true },
     });
 
-    await ctx.session.$create({ userId: user.id, role: user.role as Role });
-    return user;
+    if (user) {
+      await ctx.session.$create({ userId: user.id, role: user.role as Role });
+      return user;
+    }
+
+    return null;
   },
 );
