@@ -8,7 +8,9 @@ import {
   Header,
   Loader,
   Text,
+  Tooltip,
 } from "@mantine/core";
+import { IconUserShield } from "@tabler/icons-react";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
@@ -61,8 +63,15 @@ const Layout: ReactFC<{
               </Anchor>
 
               {user && (
-                <Horizontal>
-                  <Text>{user.name}</Text>
+                <Horizontal center>
+                  <Horizontal center spacing="xs">
+                    <Text>{user.name} </Text>
+                    {user.isAdmin && (
+                      <Tooltip label="Admin">
+                        <IconUserShield size={15} />
+                      </Tooltip>
+                    )}
+                  </Horizontal>
                   <Button
                     size="xs"
                     variant="light"
