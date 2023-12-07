@@ -23,15 +23,6 @@ import { GoogleButton, TwitterButton } from "./SocialButtons";
 
 type SignupFormType = z.infer<typeof SignupInput>;
 
-export const bindCheckboxToForm = (form: any, key: string) => {
-  const inputProps = form.getInputProps(key);
-
-  return {
-    ...inputProps,
-    checked: inputProps.value,
-  };
-};
-
 export function MainAuthenticationForm(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
 
@@ -102,7 +93,7 @@ export function MainAuthenticationForm(props: PaperProps) {
 
             {type === "register" && (
               <Checkbox
-                {...bindCheckboxToForm(form, "terms")}
+                {...(form.getInputProps("terms"), { type: "checkbox" })}
                 label="I accept terms and conditions"
               />
             )}
