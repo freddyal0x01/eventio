@@ -10,15 +10,15 @@ const ErrorComponent: ReactFC<{
   title: string;
 }> = ({ statusCode, title }) => {
   return (
-    <Vertical spacing={"xs"} center fullW>
+    <Vertical center fullW>
       <Paper p={"xl"} w={"100%"} maw={400} radius={"md"}>
-        <Vertical fullW spacing={"0"} center>
-          <Text color="dimmed" fz={"md"} fw={"bold"}>
+        <Vertical center fullW spacing={0}>
+          <Text color={"dimmed"} fz={"md"} fw={"bold"}>
             {statusCode}
           </Text>
-          <Vertical spacing={"0"} center>
-            <Text fz={"xl"}>An error occurred 😞 </Text>
-            <Text fz={"md"} color="dimmed">
+          <Vertical spacing={0} center>
+            <Text fz={"xl"}>An error occurred 😭</Text>
+            <Text fz={"md"} color={"dimmed"}>
               {title}
             </Text>
           </Vertical>
