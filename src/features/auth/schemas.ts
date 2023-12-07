@@ -15,7 +15,9 @@ export const SignupInput = z.object({
   email,
   password,
   name: z.string(),
-  terms: z.boolean(),
+  terms: z.boolean().refine((val) => val === true, {
+    message: "You must agree to the terms and conditions",
+  }),
 });
 
 export const LoginInput = z
