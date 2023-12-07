@@ -71,9 +71,6 @@ dependencies:
   react-hanger:
     specifier: 2.4.5
     version: 2.4.5(react-dom@18.2.0)(react@18.2.0)
-  react-hook-form:
-    specifier: 7.48.2
-    version: 7.48.2(react@18.2.0)
   secure-password:
     specifier: 4.0.0
     version: 4.0.0
@@ -8849,15 +8846,6 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /react-hook-form@7.48.2(react@18.2.0):
-    resolution: {integrity: sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==}
-    engines: {node: '>=12.22.0'}
-    peerDependencies:
-      react: ^16.8.0 || ^17 || ^18
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /react-is@16.13.1:
