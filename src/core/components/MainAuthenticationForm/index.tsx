@@ -38,13 +38,13 @@ export function MainAuthenticationForm(props: PaperProps) {
   const [$login, { isLoading: isLoggingIn }] = useMutation(login);
   const [$signup, { isLoading: isSigningUp }] = useMutation(signup);
 
-  const loading = isLoggingIn || isSigningUp;
-
   const form = useForm<SignupFormType>({
     validate: zodResolver(SignupInput),
     validateInputOnBlur: true,
     validateInputOnChange: ["terms"],
   });
+
+  const loading = isLoggingIn || isSigningUp;
 
   return (
     <Vertical mih="100vh" center fullW fullH>
