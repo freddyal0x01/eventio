@@ -1,16 +1,14 @@
 import { BlitzPage } from "@blitzjs/next";
 import { useMutation, useQuery } from "@blitzjs/rpc";
 import { Button, Checkbox, Input, List, Text } from "@mantine/core";
-import { useForm, zodResolver } from "@mantine/form";
 import { PromiseReturnType } from "blitz";
 import { Horizontal, Vertical } from "mantine-layout-components";
-import { useState } from "react";
+import { useInput } from "react-hanger";
 import Layout from "src/core/layouts/Layout";
 import addTodo from "src/features/todos/mutations/addTodo";
 import cleanCompleted from "src/features/todos/mutations/cleanCompleted";
 import toggleTodo from "src/features/todos/mutations/toggleTodo";
 import getTodos from "src/features/todos/queries/getTodos";
-import { TodoFormType, TodoInput } from "src/features/todos/schemas";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { ReactFC } from "types";
 
@@ -40,34 +38,28 @@ const Todo: ReactFC<{
 const Todos = () => {
   const user = useCurrentUser();
   const [todos] = useQuery(getTodos, {});
-  const [todoTitle, setTodoTitle] = useState("");
-
   const [$addTodo, { isLoading }] = useMutation(addTodo, {});
   const [$cleanCompleted] = useMutation(cleanCompleted, {});
 
-  const form = useForm<TodoFormType>({
-    validate: zodResolver(TodoInput),
-  });
+  const todoTitle = useInput("");
 
   return (
     <Vertical>
       {user && <Text>Hello {user.name}, here are you todos:</Text>}
-      <form
-        onSubmit={form.onSubmit(async (values) => {
-          await $addTodo({
-            ...values,
+
+      <Input {...todoTitle.eventBind} placeholder="Enter todo title" />
+      <Button
+        onClick={() => {
+          $addTodo({
+            todoTitle: todoTitle.value,
           });
-        })}
+        }}
+        type="submit"
+        loading={isLoading}
       >
-        <Input
-          value={todoTitle}
-          onChange={(e) => setTodoTitle(e.currentTarget.value)}
-          placeholder="Enter todo title"
-        />
-        <Button type="submit" loading={isLoading}>
-          Create a todo
-        </Button>
-      </form>
+        Create a todo
+      </Button>
+
       <Button onClick={async () => $cleanCompleted({})}>Clean completed</Button>
       <List>
         {todos.map((todo) => (
