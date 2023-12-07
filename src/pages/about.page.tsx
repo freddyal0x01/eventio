@@ -9,4 +9,6 @@ const AboutPage: BlitzPage = () => {
   );
 };
 
+AboutPage.authenticate = true;
+
 export default AboutPage;

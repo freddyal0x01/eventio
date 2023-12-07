@@ -1,9 +1,9 @@
 import { BlitzPage } from "@blitzjs/next";
 import { useMutation, useQuery } from "@blitzjs/rpc";
-import { Button, Checkbox, Input, List, Loader, Text } from "@mantine/core";
+import { Button, Checkbox, Input, List, Text } from "@mantine/core";
 import { PromiseReturnType } from "blitz";
 import { Horizontal, Vertical } from "mantine-layout-components";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import Layout from "src/core/layouts/Layout";
 import addTodo from "src/features/todos/mutations/addTodo";
 import cleanCompleted from "src/features/todos/mutations/cleanCompleted";
@@ -74,9 +74,7 @@ const Todos = () => {
 export const TodosPage: BlitzPage = () => {
   return (
     <Layout>
-      <Suspense fallback={<Loader />}>
-        <Todos />
-      </Suspense>
+      <Todos />
     </Layout>
   );
 };

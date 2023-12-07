@@ -22,8 +22,8 @@ import { GoogleButton, TwitterButton } from "./SocialButtons";
 export function MainAuthenticationForm(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
 
-  const [$login] = useMutation(login);
-  const [$signup] = useMutation(signup);
+  const [$login, { isLoading: isLoggingIn }] = useMutation(login);
+  const [$signup, { isLoading: isSigningUp }] = useMutation(signup);
 
   const form = useForm({
     initialValues: {
@@ -50,8 +50,10 @@ export function MainAuthenticationForm(props: PaperProps) {
     }
   };
 
+  const loading = isLoggingIn || isSigningUp;
+
   return (
-    <Vertical center fullW fullH>
+    <Vertical mih="100vh" center fullW fullH>
       <Paper radius="md" p="xl" withBorder {...props}>
         <Text size="lg" fw={500}>
           Welcome to Eventio, {type} with
@@ -119,7 +121,7 @@ export function MainAuthenticationForm(props: PaperProps) {
                 ? "Already have an account? Login"
                 : "Don't have an account? Register"}
             </Anchor>
-            <Button type="submit" radius="xl">
+            <Button loading={loading} type="submit" radius="xl">
               {upperFirst(type)}
             </Button>
           </Group>
