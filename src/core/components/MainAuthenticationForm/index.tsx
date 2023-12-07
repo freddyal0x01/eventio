@@ -17,11 +17,12 @@ import { upperFirst, useToggle } from "@mantine/hooks";
 import { Vertical } from "mantine-layout-components";
 import login from "src/features/auth/mutations/login";
 import signup from "src/features/auth/mutations/signup";
-import { SignupInput } from "src/features/auth/schemas";
+import { LoginInput, SignupInput } from "src/features/auth/schemas";
 import { z } from "zod";
 import { GoogleButton, TwitterButton } from "./SocialButtons";
 
 type SignupFormType = z.infer<typeof SignupInput>;
+type LoginFormType = z.infer<typeof LoginInput>;
 
 export const bindCheckboxToForm = (form: any, key: string) => {
   const inputProps = form.getInputProps(key);
@@ -39,7 +40,8 @@ export function MainAuthenticationForm(props: PaperProps) {
   const [$signup, { isLoading: isSigningUp }] = useMutation(signup);
 
   const form = useForm<SignupFormType>({
-    validate: zodResolver(SignupInput),
+    validate:
+      type === "register" ? zodResolver(SignupInput) : zodResolver(LoginInput),
     validateInputOnBlur: true,
     validateInputOnChange: ["terms"],
   });
