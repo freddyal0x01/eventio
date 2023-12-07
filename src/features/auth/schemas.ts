@@ -10,3 +10,17 @@ export const password = z
   .min(10)
   .max(100)
   .transform((str) => str.trim());
+
+export const SignupInput = z.object({
+  email,
+  password,
+  name: z.string(),
+  terms: z.boolean(),
+});
+
+export const LoginInput = z
+  .object({
+    email,
+    password: z.string(),
+  })
+  .strict();
