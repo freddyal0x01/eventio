@@ -23,17 +23,26 @@ import { GoogleButton, TwitterButton } from "./SocialButtons";
 
 type SignupFormType = z.infer<typeof SignupInput>;
 
+const form = useForm<SignupFormType>({
+  validate: zodResolver(SignupInput),
+  validateInputOnBlur: true,
+  validateInputOnChange: ["terms"],
+});
+
+export const bindCheckboxToForm = (form: any, key: string) => {
+  const inputProps = form.getInputProps(key);
+
+  return {
+    ...inputProps,
+    checked: inputProps.value,
+  };
+};
+
 export function MainAuthenticationForm(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
 
   const [$login, { isLoading: isLoggingIn }] = useMutation(login);
   const [$signup, { isLoading: isSigningUp }] = useMutation(signup);
-
-  const form = useForm<SignupFormType>({
-    validate: zodResolver(SignupInput),
-    validateInputOnBlur: true,
-    validateInputOnChange: ["terms"],
-  });
 
   const loading = isLoggingIn || isSigningUp;
 
@@ -93,7 +102,7 @@ export function MainAuthenticationForm(props: PaperProps) {
 
             {type === "register" && (
               <Checkbox
-                {...(form.getInputProps("terms"), { type: "checkbox" })}
+                {...bindCheckboxToForm(form, "terms")}
                 label="I accept terms and conditions"
               />
             )}
