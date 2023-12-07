@@ -1,4 +1,4 @@
-import { BlitzLayout, Routes } from "@blitzjs/next";
+import { Routes } from "@blitzjs/next";
 import { useMutation } from "@blitzjs/rpc";
 import {
   Anchor,
@@ -12,9 +12,10 @@ import {
 import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
+import { ReactFC } from "types";
 
 type Props = {
   title?: string;
@@ -22,7 +23,10 @@ type Props = {
   maxWidth?: number;
 };
 
-const Layout: BlitzLayout<Props> = ({ title, maxWidth = 800, children }) => {
+const Layout: ReactFC<{
+  title?: string;
+  maxWidth?: number;
+}> = ({ title, maxWidth = 800, children }) => {
   const thisYear = new Date().getFullYear();
 
   const [logoutMutation] = useMutation(logout);
