@@ -1,6 +1,7 @@
 import { BlitzPage } from "@blitzjs/next";
 import { useMutation, useQuery } from "@blitzjs/rpc";
 import { Button, Checkbox, Input, List, Loader, Text } from "@mantine/core";
+import { PromiseReturnType } from "blitz";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import { Suspense, useState } from "react";
 import Layout from "src/core/layouts/Layout";
@@ -9,12 +10,19 @@ import cleanCompleted from "src/features/todos/mutations/cleanCompleted";
 import toggleTodo from "src/features/todos/mutations/toggleTodo";
 import getTodos from "src/features/todos/queries/getTodos";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
+import { ReactFC } from "types";
 
-const Todo = ({ todo }) => {
-  const [$toggleTodo] = useMutation(toggleTodo);
+type Todos = PromiseReturnType<typeof getTodos>;
+type TodoType = Todos[number];
+
+const Todo: ReactFC<{
+  todo: TodoType;
+}> = ({ todo }) => {
+  const [$toggleTodo, { isLoading }] = useMutation(toggleTodo);
   return (
     <Horizontal>
       <Checkbox
+        disabled={isLoading}
         checked={todo.done}
         onClick={async () => {
           await $toggleTodo({
