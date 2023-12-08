@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "blitz dev",
     "email": "cd email/react-email && pnpm dev --port 3009",
-    "email-install-dependencies": "cd email/react-email && pnpm i",
-    "build": "blitz prisma migrate deploy && blitz prisma generate && email-install-dependencies && blitz build",
+    "email-install-dependencies": "cd email/react-email && pnpm install",
+    "build": "blitz prisma migrate deploy && blitz prisma generate && pnpm email-install-dependencies && blitz build",
     "start": "blitz start",
     "db:studio": "BROWSER=none blitz prisma studio",
     "db:migrate": "blitz prisma migrate dev",
