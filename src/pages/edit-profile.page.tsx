@@ -8,20 +8,23 @@ import Layout from "src/core/layouts/Layout";
 import { EditProfileForm } from "src/features/users/forms/EditProfileForm";
 import updateProfile from "src/features/users/mutations/updateProfile";
 import getUserForEditingProfile from "src/features/users/queries/getUserForEditingProfile";
-import { UpdateProfileInput, UpdateProfileInputType } from "src/features/users/schemas";
+import {
+  UpdateProfileInput,
+  UpdateProfileInputType,
+} from "src/features/users/schemas";
 
 export const EditProfilePage: BlitzPage = () => {
+  const [$updateProfile, { isLoading }] = useMutation(updateProfile);
+
   const router = useRouter();
 
-  const [$updateProfile, {isLoading}] = useMutation(updateProfile)
-
-  const [data] = useQuery(getUserForEditingProfile, {}, {enabled: false})
+  const [user] = useQuery(getUserForEditingProfile, {}, { enabled: false });
 
   const form = useForm<UpdateProfileInputType>({
     initialValues: {
-      name: data?.name || "",
-      username: data?.username || "",
-      bio: data?.bio || "",
+      name: user?.name || "",
+      username: user?.username || "",
+      bio: user?.bio || "",
     },
     validate: zodResolver(UpdateProfileInput),
     validateInputOnBlur: true,
@@ -30,19 +33,19 @@ export const EditProfilePage: BlitzPage = () => {
   return (
     <Layout>
       <Vertical>
-      <EditProfileForm
+        <EditProfileForm
           form={form}
           onSubmit={async (values) => {
             await $updateProfile(values);
             const { username } = values;
             if (username) {
               router.push(Routes.ProfilePage({ username }));
-            showNotification({
-              color: "green",
-              title: "Success!",
-              message: "Profile updated!",
-            });
-          }
+              showNotification({
+                color: "green",
+                title: "Success!",
+                message: "Profile updated!",
+              });
+            }
           }}
           isSubmitting={isLoading}
         />

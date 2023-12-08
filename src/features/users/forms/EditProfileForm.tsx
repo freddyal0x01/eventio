@@ -9,33 +9,35 @@ export const EditProfileForm: ReactFC<{
   form: UseFormReturnType<UpdateProfileInputType>;
   onSubmit: (values: UpdateProfileInputType) => Promise<void>;
   isSubmitting: boolean;
-}> = ({ form, onSubmit, isSubmitting }) => {
-  <Form form={form} onSubmit={onSubmit}>
-    <Vertical fullW>
-      <TextInput
-        w={"100%"}
-        required
-        label="Name"
-        placeholder="Name"
-        {...form.getInputProps("name")}
-      />
-      <TextInput
-        w={"100%"}
-        required
-        label="Username"
-        placeholder="Username"
-        {...form.getInputProps("username")}
-      />
-      <Textarea
-        w={"100%"}
-        required
-        label="Bio"
-        placeholder="Bio"
-        {...form.getInputProps("bio")}
-      />
-      <Button disabled={!form.isValid()} loading={isSubmitting} type="submit">
-        Save
-      </Button>
-    </Vertical>
-  </Form>;
+}> = ({ onSubmit, form, isSubmitting }) => {
+  return (
+    <Form form={form} onSubmit={onSubmit}>
+      <Vertical fullW>
+        <TextInput
+          w={"100%"}
+          required
+          label="Name"
+          placeholder="Name"
+          {...form.getInputProps("name")}
+        />
+        <TextInput
+          w={"100%"}
+          required
+          label="Username"
+          placeholder="Username"
+          {...form.getInputProps("username")}
+        />
+        <Textarea
+          w={"100%"}
+          required
+          label="Bio"
+          placeholder="Bio"
+          {...form.getInputProps("bio")}
+        />
+        <Button disabled={!form.isValid()} loading={isSubmitting} type="submit">
+          Save
+        </Button>
+      </Vertical>
+    </Form>
+  );
 };

@@ -49,7 +49,14 @@ export const ProfilePage: BlitzPage = () => {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Edit Profile">
+      <Modal
+        opened={opened}
+        onClose={() => {
+          close();
+          form.reset();
+        }}
+        title="Edit Profile"
+      >
         <EditProfileForm
           form={form}
           onSubmit={async (values) => {
