@@ -1,6 +1,9 @@
 import { SecurePassword } from "@blitzjs/auth/secure-password";
 import { resolver } from "@blitzjs/rpc";
 import db from "db";
+import { EmailTemplateWelcome } from "email/react-email/emails/welcome";
+import { sendEmail } from "email/sendEmail";
+import { createElement } from "react";
 import { Role } from "types";
 import { SignupInput } from "../schemas";
 
@@ -20,6 +23,13 @@ export default resolver.pipe(
     });
 
     if (user) {
+      await sendEmail({
+        to: user.email,
+        subject: "Welcome to Eventio!",
+        react: createElement(EmailTemplateWelcome, {
+          props: { name: user.name },
+        }),
+      });
       await ctx.session.$create({ userId: user.id, role: user.role as Role });
       return user;
     }

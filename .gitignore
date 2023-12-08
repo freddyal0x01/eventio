@@ -52,6 +52,10 @@ lib-cov
 # Serverless directories
 .serverless/
 
+#React Email
+email/react-email/node-modules/
+email/react-email/.react-email/
+
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
