@@ -3,9 +3,11 @@ import { useMutation } from "@blitzjs/rpc";
 import {
   Anchor,
   AppShell,
+  Box,
   Button,
   Footer,
   Header,
+  Indicator,
   Loader,
   Text,
   Tooltip,
@@ -20,6 +22,7 @@ import { ReactNode, Suspense } from "react";
 import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { ReactFC } from "types";
+import UserProfileProgress from "../components/Header/UserProfileProgress";
 import { RootErrorFallback } from "../components/RootErrorFallback";
 import { UserAvatar } from "../components/UserAvatar";
 
@@ -84,16 +87,30 @@ const Layout: ReactFC<{
                       }}
                     >
                       <Horizontal>
-                        <UserAvatar user={user} />
+                        <Conditional
+                          condition={user.isAdmin}
+                          wrap={(children) => (
+                            <Indicator
+                              color="none"
+                              position="bottom-end"
+                              label={
+                                <Tooltip color="dark" label="Admin">
+                                  <Box>
+                                    <IconUserShield size={13} />
+                                  </Box>
+                                </Tooltip>
+                              }
+                            >
+                              {children}
+                            </Indicator>
+                          )}
+                        >
+                          <UserAvatar user={user} />
+                        </Conditional>
                         <Text>{user.name}</Text>
+                        <UserProfileProgress />
                       </Horizontal>
                     </Conditional>
-
-                    {user.isAdmin && (
-                      <Tooltip label="Admin">
-                        <IconUserShield size={15} />
-                      </Tooltip>
-                    )}
                   </Horizontal>
                   <Button
                     size="xs"

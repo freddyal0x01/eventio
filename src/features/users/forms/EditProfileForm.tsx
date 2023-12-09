@@ -30,7 +30,6 @@ export const EditProfileForm: ReactFC<{
         />
         <Textarea
           w={"100%"}
-          required
           label="Bio"
           placeholder="Bio"
           {...form.getInputProps("bio")}

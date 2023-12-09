@@ -51,6 +51,7 @@ export const UploadThingFileInput: ReactFC<{
         </Text>
         {loading.value && <Loader size={"xs"} />}
       </Horizontal>
+
       {existingImageKey && (
         <Indicator
           color={"none"}
@@ -75,11 +76,11 @@ export const UploadThingFileInput: ReactFC<{
           />
         </Indicator>
       )}
+
       {!existingImageKey && (
         <FileInput
           disabled={loading.value}
           onChange={(files) => {
-            console.log("files", files);
             loading.setTrue();
             if (files) {
               startUpload([files]);
