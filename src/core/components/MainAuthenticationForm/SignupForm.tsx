@@ -26,15 +26,6 @@ import type = Prisma.type;
 
 type SignupFormType = z.infer<typeof SignupInput>;
 
-export const bindCheckboxToForm = (form: any, key: string) => {
-  const inputProps = form.getInputProps(key);
-
-  return {
-    ...inputProps,
-    checked: inputProps.value,
-  };
-};
-
 export const SignupForm: ReactFC<{
   toggle: () => void;
 }> = ({ toggle }) => {
@@ -106,7 +97,7 @@ export const SignupForm: ReactFC<{
 
             <Checkbox
               label="I accept terms and conditions"
-              {...bindCheckboxToForm(form, "terms")}
+              {...form.getInputProps("terms", { type: "checkbox" })}
             />
           </Stack>
 
