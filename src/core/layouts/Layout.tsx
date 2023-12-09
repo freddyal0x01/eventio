@@ -3,6 +3,7 @@ import { useMutation } from "@blitzjs/rpc";
 import {
   Anchor,
   AppShell,
+  Avatar,
   Button,
   Footer,
   Header,
@@ -82,7 +83,17 @@ const Layout: ReactFC<{
                         );
                       }}
                     >
-                      <Text>{user.name}</Text>
+                      <Horizontal>
+                        <Avatar
+                          src={`
+                          https://uploadthing.com/f/${user.avatarImageKey}
+                        `}
+                          radius={"xl"}
+                        >
+                          {user.name}
+                        </Avatar>
+                        <Text>{user.name}</Text>
+                      </Horizontal>
                     </Conditional>
 
                     {user.isAdmin && (

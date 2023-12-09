@@ -65,6 +65,7 @@ export const ProfilePage: BlitzPage = () => {
         <EditProfileForm
           form={form}
           onSubmit={async (values) => {
+            console.log("values", values);
             await $updateProfile(values);
             const { username } = values;
             if (username !== user.username) {
