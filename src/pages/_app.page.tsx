@@ -8,17 +8,11 @@ import { FullPageLoader } from "src/core/components/FullPageLoader";
 import { RootErrorFallback } from "src/core/components/RootErrorFallback";
 import { globalModals } from "src/modals";
 import "src/styles/globals.css";
+import { theme } from "src/styles/mantine-theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-      theme={{
-        /** Put your mantine theme override here */
-        colorScheme: "dark",
-      }}
-    >
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
       <ModalsProvider modals={globalModals}>
         <ErrorBoundary FallbackComponent={RootErrorFallback}>
           <Notifications position="top-right" />
