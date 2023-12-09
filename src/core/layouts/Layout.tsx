@@ -9,6 +9,7 @@ import {
   Header,
   Indicator,
   Loader,
+  Modal,
   Text,
   Tooltip,
 } from "@mantine/core";
@@ -23,6 +24,7 @@ import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { ReactFC } from "types";
 import UserProfileProgress from "../components/Header/UserProfileProgress";
+import { OnboardingWizard } from "../components/OnboardingWizard";
 import { RootErrorFallback } from "../components/RootErrorFallback";
 import { UserAvatar } from "../components/UserAvatar";
 
@@ -157,6 +159,18 @@ const Layout: ReactFC<{
                 </Vertical>
               }
             >
+              <Modal
+                size={"xl"}
+                centered={true}
+                closeOnClickOutside={false}
+                closeOnEscape={false}
+                withCloseButton={false}
+                title="Onboarding"
+                opened={!user?.onboarded}
+                onClose={() => {}}
+              >
+                <OnboardingWizard />
+              </Modal>
               {children}
             </Suspense>
           </ErrorBoundary>

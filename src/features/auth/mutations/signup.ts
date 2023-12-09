@@ -18,6 +18,7 @@ export default resolver.pipe(
         name,
         hashedPassword,
         role: "USER",
+        onboarded: false,
       },
       select: { id: true, name: true, email: true, role: true },
     });
