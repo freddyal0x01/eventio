@@ -1,18 +1,23 @@
 import {
+  ActionIcon,
   Button,
   FileInput,
+  Image,
+  Indicator,
   Loader,
   Text,
   TextInput,
   Textarea,
+  Tooltip,
 } from "@mantine/core";
 import { Form } from "@mantine/form";
 import { UseFormReturnType } from "@mantine/form/lib/types";
 import { showNotification } from "@mantine/notifications";
-import { IconPhoto } from "@tabler/icons-react";
+import { IconPhoto, IconX } from "@tabler/icons-react";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import { useBoolean } from "react-hanger";
 import { useUploadThing } from "src/core/components/UploadThing";
+import { getUploadthingUrl } from "src/utils/image-utils";
 import { ReactFC } from "types";
 import { UpdateProfileInputType } from "../schemas";
 
@@ -40,6 +45,8 @@ export const EditProfileForm: ReactFC<{
     },
   });
 
+  const existingAvatarImageKey = form.values.avatarImageKey;
+
   return (
     <Form form={form} onSubmit={onSubmit}>
       <Vertical fullW>
@@ -64,25 +71,52 @@ export const EditProfileForm: ReactFC<{
           placeholder="Bio"
           {...form.getInputProps("bio")}
         />
-        <FileInput
-          label={
-            <Horizontal spacing={"xs"} center>
-              <Text>Profile picture</Text>
-              {loading.value && <Loader size={"xs"} />}
-            </Horizontal>
-          }
-          disabled={loading.value}
-          onChange={(files) => {
-            console.log("files", files);
-            loading.setTrue();
-            if (files) {
-              startUpload([files]);
-            }
-          }}
-          clearable={true}
-          placeholder="Profile picture"
-          icon={<IconPhoto size={16} />}
-        />
+        <Vertical>
+          <Horizontal spacing={"xs"} center>
+            <Text size={"sm"} weight={500}>
+              Profile picture
+            </Text>
+            {loading.value && <Loader size={"xs"} />}
+          </Horizontal>
+          {existingAvatarImageKey && (
+            <Indicator
+              color={"none"}
+              label={
+                <Tooltip color="dark" label="Clear image">
+                  <ActionIcon
+                    onClick={() => {
+                      form.setFieldValue("avatarImageKey", "");
+                    }}
+                    size="sm"
+                    variant="light"
+                  >
+                    <IconX size={13} />
+                  </ActionIcon>
+                </Tooltip>
+              }
+            >
+              <Image
+                width={"60px"}
+                src={getUploadthingUrl(existingAvatarImageKey)}
+              />
+            </Indicator>
+          )}
+          {!existingAvatarImageKey && (
+            <FileInput
+              disabled={loading.value}
+              onChange={(files) => {
+                console.log("files", files);
+                loading.setTrue();
+                if (files) {
+                  startUpload([files]);
+                }
+              }}
+              clearable={true}
+              placeholder="Profile picture"
+              icon={<IconPhoto size={16} />}
+            />
+          )}
+        </Vertical>
         <Button disabled={!form.isValid()} loading={isSubmitting} type="submit">
           Save
         </Button>

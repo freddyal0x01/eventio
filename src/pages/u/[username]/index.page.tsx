@@ -32,6 +32,7 @@ export const ProfilePage: BlitzPage = () => {
       name: user?.name || "",
       username: user?.username || "",
       bio: user?.bio || "",
+      avatarImageKey: user?.avatarImageKey || "",
     },
     validate: zodResolver(UpdateProfileInput),
     validateInputOnBlur: true,
