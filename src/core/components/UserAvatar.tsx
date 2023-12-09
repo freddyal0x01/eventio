@@ -12,9 +12,13 @@ type Props = {
   };
 } & Partial<AvatarProps>;
 
-export const UserAvatar: ReactFC<Props> = ({ user, ...any }) => {
+export const UserAvatar: ReactFC<Props> = ({ user, ...rest }) => {
   return (
-    <Avatar src={getUploadthingUrl(user.avatarImageKey)} radius={"xl"} {...any}>
+    <Avatar
+      src={getUploadthingUrl(user.avatarImageKey)}
+      radius={"xl"}
+      {...rest}
+    >
       {getAvatarFallbackName(user.name)}
     </Avatar>
   );
