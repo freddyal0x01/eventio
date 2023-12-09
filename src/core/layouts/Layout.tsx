@@ -3,7 +3,6 @@ import { useMutation } from "@blitzjs/rpc";
 import {
   Anchor,
   AppShell,
-  Avatar,
   Button,
   Footer,
   Header,
@@ -22,6 +21,7 @@ import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { ReactFC } from "types";
 import { RootErrorFallback } from "../components/RootErrorFallback";
+import { UserAvatar } from "../components/UserAvatar";
 
 type Props = {
   title?: string;
@@ -84,14 +84,7 @@ const Layout: ReactFC<{
                       }}
                     >
                       <Horizontal>
-                        <Avatar
-                          src={`
-                          https://uploadthing.com/f/${user.avatarImageKey}
-                        `}
-                          radius={"xl"}
-                        >
-                          {user.name}
-                        </Avatar>
+                        <UserAvatar user={user} />
                         <Text>{user.name}</Text>
                       </Horizontal>
                     </Conditional>
