@@ -17,8 +17,6 @@ export class PrismaError extends Error {
 }
 
 export const errorFormatter = (err: any) => {
-  console.log(err);
-
   const message = err?.message || err?.toString();
 
   if (err.code === "P2002") {

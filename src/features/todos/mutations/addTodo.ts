@@ -6,10 +6,6 @@ export default resolver.pipe(
   resolver.zod(TodoInput),
   resolver.authorize(),
   async ({ todoTitle }, { session: { userId } }) => {
-    console.log(
-      `Creating a todo with the title: ${todoTitle} for user ${userId}`,
-    );
-
     const todo = db.todo.create({
       data: {
         title: todoTitle,
@@ -20,8 +16,6 @@ export default resolver.pipe(
         },
       },
     });
-
-    console.log(`todo: ${todo}`);
 
     return todo;
   },
