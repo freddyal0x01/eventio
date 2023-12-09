@@ -27,7 +27,7 @@ export default resolver.pipe(
         to: user.email,
         subject: "Welcome to Eventio!",
         react: createElement(EmailTemplateWelcome, {
-          props: { name: user.name },
+          props: { name: user.name, emailVerifyUrl: "" },
         }),
       });
       await ctx.session.$create({ userId: user.id, role: user.role as Role });
