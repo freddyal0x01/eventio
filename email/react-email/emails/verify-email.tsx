@@ -17,15 +17,13 @@ const baseUrl = process.env.VERCEL_URL
   : "http://localhost:3000";
 
 const defaultProps = {
-  name: "Test User",
   emailVerifyUrl: "Test User",
 };
 
-export const EmailTemplateWelcome: ReactFC<{
-  props: { name?: string | null; emailVerifyUrl?: string | null };
+export const EmailTemplateVerifyEmail: ReactFC<{
+  props: { emailVerifyUrl: string };
 }> = ({ props = defaultProps }) => {
-  const { name } = props;
-  const welcomeMessage = name ? `Hello there ${name},` : "Hello,";
+  const { emailVerifyUrl } = props;
   return (
     <Html>
       <Head />
@@ -41,9 +39,12 @@ export const EmailTemplateWelcome: ReactFC<{
             />
             <Hr style={hr} />
             <Text style={paragraph}>
-              {welcomeMessage} welcome to our platform
+              Hello, you requested this email for verifying your account. If you
+              didn't request it, please ignore it.
             </Text>
-            <Button style={button}>Verify your account</Button>
+            <Button style={button} href={emailVerifyUrl}>
+              Verify your account
+            </Button>
             <Text style={paragraph}>— The Eventio team</Text>
             <Hr style={hr} />
             <Text style={footer}>
@@ -56,7 +57,7 @@ export const EmailTemplateWelcome: ReactFC<{
   );
 };
 
-export default EmailTemplateWelcome;
+export default EmailTemplateVerifyEmail;
 
 const main = {
   backgroundColor: "#f6f9fc",

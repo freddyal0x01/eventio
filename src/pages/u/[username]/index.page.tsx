@@ -3,11 +3,12 @@ import { useMutation, useQuery } from "@blitzjs/rpc";
 import { Alert, Button, Modal, Text } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { showNotification } from "@mantine/notifications";
+import { notifications, showNotification } from "@mantine/notifications";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { Vertical } from "mantine-layout-components";
 import { useRouter } from "next/router";
 import Layout from "src/core/layouts/Layout";
+import requestVerificationEmail from "src/features/auth/mutations/requestVerificationEmail";
 import { EditProfileForm } from "src/features/users/forms/EditProfileForm";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import updateProfile from "src/features/users/mutations/updateProfile";
@@ -39,6 +40,9 @@ export const ProfilePage: BlitzPage = () => {
   const router = useRouter();
 
   const [$updateProfile, { isLoading }] = useMutation(updateProfile);
+
+  const [$requestVerificationEmail, { isLoading: isSendingEmail }] =
+    useMutation(requestVerificationEmail);
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -93,7 +97,20 @@ export const ProfilePage: BlitzPage = () => {
                   Your email is still not verified. Please check your inbox for
                   the welcome email we have sent you.
                 </Text>
-                <Button size="sm" color="red" variant="light">
+                <Button
+                  loading={isSendingEmail}
+                  onClick={async () => {
+                    await $requestVerificationEmail();
+                    notifications.show({
+                      color: "green",
+                      title: "Success",
+                      message: "Email sent!",
+                    });
+                  }}
+                  size="sm"
+                  color="red"
+                  variant="light"
+                >
                   Resend email
                 </Button>
               </Vertical>

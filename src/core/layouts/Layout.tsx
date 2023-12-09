@@ -15,7 +15,7 @@ import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Suspense } from "react";
+import { ReactNode, Suspense } from "react";
 import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { ReactFC } from "types";
@@ -23,7 +23,7 @@ import { RootErrorFallback } from "../components/RootErrorFallback";
 
 type Props = {
   title?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   maxWidth?: number;
 };
 
