@@ -9,6 +9,7 @@ import login from "src/features/auth/mutations/login";
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void;
+  toggle: () => void;
 };
 
 export const LoginForm = (props: LoginFormProps) => {
