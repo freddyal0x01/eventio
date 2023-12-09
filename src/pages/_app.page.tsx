@@ -1,7 +1,6 @@
 import { AppProps, ErrorBoundary } from "@blitzjs/next";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import "@uploadthing/react/styles.css";
 import { Suspense } from "react";
 import { withBlitz } from "src/blitz-client";
 import { FullPageLoader } from "src/core/components/FullPageLoader";
