@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { IconUserShield } from "@tabler/icons-react";
+import Conditional from "conditional-wrap";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
@@ -67,13 +68,23 @@ const Layout: ReactFC<{
               {user && (
                 <Horizontal center>
                   <Horizontal center spacing="xs">
-                    <Link
-                      href={Routes.ProfilePage({
-                        username: user.username,
-                      })}
+                    <Conditional
+                      condition={!!user.username}
+                      wrap={(children) => {
+                        return (
+                          <Link
+                            href={Routes.ProfilePage({
+                              username: user.username as string,
+                            })}
+                          >
+                            {children}
+                          </Link>
+                        );
+                      }}
                     >
                       <Text>{user.name}</Text>
-                    </Link>
+                    </Conditional>
+
                     {user.isAdmin && (
                       <Tooltip label="Admin">
                         <IconUserShield size={15} />

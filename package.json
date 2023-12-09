@@ -36,6 +36,7 @@
     "@t3-oss/env-nextjs": "0.7.1",
     "@tabler/icons-react": "2.42.0",
     "blitz": "2.0.0-beta.35",
+    "conditional-wrap": "1.0.2",
     "date-fns": "2.30.0",
     "mantine-layout-components": "0.1.2",
     "next": "13.5.4",
