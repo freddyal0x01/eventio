@@ -1,9 +1,10 @@
 import { BlitzPage, Routes } from "@blitzjs/next";
 import { useMutation, useQuery } from "@blitzjs/rpc";
-import { Button, Modal, Text } from "@mantine/core";
+import { Alert, Button, Modal, Text } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { Vertical } from "mantine-layout-components";
 import { useRouter } from "next/router";
 import Layout from "src/core/layouts/Layout";
@@ -80,6 +81,24 @@ export const ProfilePage: BlitzPage = () => {
 
       <Layout>
         <Vertical>
+          {isOwner && !currentUser?.emailVerifiedAt && (
+            <Alert
+              variant="outline"
+              icon={<IconAlertCircle size={"1rem"} />}
+              title="Warning!"
+              color="red"
+            >
+              <Vertical>
+                <Text>
+                  Your email is still not verified. Please check your inbox for
+                  the welcome email we have sent you.
+                </Text>
+                <Button size="sm" color="red" variant="light">
+                  Resend email
+                </Button>
+              </Vertical>
+            </Alert>
+          )}
           {isOwner && <Button onClick={open}>Edit Profile</Button>}
           <Text>Hello {user.name}</Text>
           <Text>{user.bio}</Text>
