@@ -1,6 +1,6 @@
 import { BlitzPage, Routes } from "@blitzjs/next";
 import { useMutation, useQuery } from "@blitzjs/rpc";
-import { Alert, Button, Modal, Text } from "@mantine/core";
+import { Alert, Button, Image, Modal, Text } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications, showNotification } from "@mantine/notifications";
@@ -17,6 +17,7 @@ import {
   UpdateProfileInput,
   UpdateProfileInputType,
 } from "src/features/users/schemas";
+import { getUploadthingUrl } from "src/utils/image-utils";
 import { useStringParam } from "src/utils/utils";
 
 export const ProfilePage: BlitzPage = () => {
@@ -127,6 +128,7 @@ export const ProfilePage: BlitzPage = () => {
             </Alert>
           )}
           {isOwner && <Button onClick={open}>Edit Profile</Button>}
+          <Image width={"300px"} src={getUploadthingUrl(user.coverImageKey)} />
           <Text>Hello {user.name}</Text>
           <Text>{user.bio}</Text>
         </Vertical>

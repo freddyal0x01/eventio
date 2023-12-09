@@ -33,6 +33,7 @@ model User {
   emailVerifiedAt DateTime?
 
   avatarImageKey String?
+  coverImageKey  String?
 
   username String? @unique
   bio      String?
