@@ -1,6 +1,8 @@
+import { Routes } from "@blitzjs/next";
 import { useMutation } from "@blitzjs/rpc";
 import {
   Anchor,
+  Box,
   Button,
   Checkbox,
   Divider,
@@ -15,6 +17,7 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { Vertical } from "mantine-layout-components";
+import Link from "next/link";
 import login from "src/features/auth/mutations/login";
 import signup from "src/features/auth/mutations/signup";
 import { LoginInput, SignupInput } from "src/features/auth/schemas";
@@ -94,13 +97,27 @@ export function MainAuthenticationForm(props: PaperProps) {
               radius="md"
             />
 
-            <PasswordInput
-              required
-              label="Password"
-              placeholder="Your password"
-              {...form.getInputProps("password")}
-              radius="md"
-            />
+            <Vertical fullW spacing={"xs"}>
+              <PasswordInput
+                w={"100%"}
+                required
+                label="Password"
+                placeholder="Your password"
+                {...form.getInputProps("password")}
+                radius="md"
+              />
+              <Box
+                fz={"xs"}
+                color="dimmed"
+                sx={{
+                  alignSelf: "end",
+                }}
+                component={Link}
+                href={Routes.ForgotPasswordPage()}
+              >
+                Forgot password
+              </Box>
+            </Vertical>
 
             {type === "register" && (
               <Checkbox

@@ -8,6 +8,7 @@ export default async function getCurrentUser(_ = null, { session }: Ctx) {
     where: { id: session.userId },
     select: {
       id: true,
+      username: true,
       name: true,
       email: true,
       role: true,

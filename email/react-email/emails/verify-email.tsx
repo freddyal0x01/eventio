@@ -27,7 +27,7 @@ export const EmailTemplateVerifyEmail: ReactFC<{
   return (
     <Html>
       <Head />
-      <Preview>You're now ready to make live transactions with Stripe!</Preview>
+      <Preview>Verify your email for Eventio</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={box}>

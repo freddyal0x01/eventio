@@ -1,57 +1,77 @@
 import { BlitzPage, Routes } from "@blitzjs/next";
 import { useMutation } from "@blitzjs/rpc";
-import { PasswordInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { assert } from "blitz";
+import { Button, PasswordInput, Text, Title } from "@mantine/core";
+import { useForm, zodResolver } from "@mantine/form";
+import { Vertical } from "mantine-layout-components";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import Layout from "src/core/layouts/Layout";
 import resetPassword from "src/features/auth/mutations/resetPassword";
+import {
+  ResetPasswordInput,
+  ResetPasswordInputType,
+} from "src/features/auth/schemas";
+import { useStringQueryParam } from "src/utils/utils";
 
 const ResetPasswordPage: BlitzPage = () => {
-  const router = useRouter();
-  const token = router.query.token?.toString();
-  const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword);
+  const token = useStringQueryParam("token");
+  const [$resetPassword, { isSuccess, isLoading }] = useMutation(resetPassword);
 
-  const form = useForm({
+  const form = useForm<ResetPasswordInputType>({
     initialValues: {
+      token: "",
       password: "",
       passwordConfirmation: "",
     },
-
-    validate: {},
+    validateInputOnBlur: true,
+    validate: zodResolver(ResetPasswordInput),
   });
 
-  let onSubmit = async (values) => {
-    assert(token, "token is required.");
-    await resetPasswordMutation({ ...values, token });
-  };
+  if (!token) return <Text>Invalid token</Text>;
 
   return (
     <Layout title="Reset Your Password">
-      <h1>Set a New Password</h1>
+      <Vertical>
+        <Title order={3}>Set a New Password</Title>
 
-      {isSuccess ? (
-        <div>
-          <h2>Password Reset Successfully</h2>
-          <p>
-            Go to the <Link href={Routes.Home()}>homepage</Link>
-          </p>
-        </div>
-      ) : (
-        <form onSubmit={form.onSubmit(onSubmit)}>
-          <PasswordInput
-            withAsterisk
-            label="Password"
-            {...form.getInputProps("password")}
-          />
-          <PasswordInput
-            withAsterisk
-            label="Password Confirmation"
-            {...form.getInputProps("passwordConfirmation")}
-          />
-        </form>
-      )}
+        {isSuccess && (
+          <Vertical>
+            <Title order={3}>Password Reset Successfully</Title>
+            <p>
+              Go to the <Link href={Routes.Home()}>homepage</Link>
+            </p>
+          </Vertical>
+        )}
+
+        {!isSuccess && (
+          <form
+            onSubmit={form.onSubmit(async (values) => {
+              await $resetPassword({ ...values, token: token as string });
+            })}
+          >
+            <Vertical fullW>
+              <PasswordInput
+                w={"100%"}
+                withAsterisk
+                label="Password"
+                {...form.getInputProps("password")}
+              />
+              <PasswordInput
+                w={"100%"}
+                withAsterisk
+                label="Password Confirmation"
+                {...form.getInputProps("passwordConfirmation")}
+              />
+              <Button
+                loading={isLoading}
+                disabled={!form.isValid()}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Vertical>
+          </form>
+        )}
+      </Vertical>
     </Layout>
   );
 };

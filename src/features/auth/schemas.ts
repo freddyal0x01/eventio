@@ -28,3 +28,22 @@ export const LoginInput = z
     password: z.string(),
   })
   .strict();
+
+export let ForgotPasswordInput = z.object({
+  email,
+});
+
+export type ForgotPasswordInputType = z.infer<typeof ForgotPasswordInput>;
+
+export let ResetPasswordInput = z
+  .object({
+    password: password,
+    passwordConfirmation: password,
+    token: z.string(),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "Passwords don't match",
+    path: ["passwordConfirmation"], // set the path of the error
+  });
+
+export type ResetPasswordInputType = z.infer<typeof ResetPasswordInput>;

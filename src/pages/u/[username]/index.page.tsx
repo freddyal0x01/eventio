@@ -41,7 +41,7 @@ export const ProfilePage: BlitzPage = () => {
 
   const [$updateProfile, { isLoading }] = useMutation(updateProfile);
 
-  const [$requestVerificationEmail, { isLoading: isSendingEmail }] =
+  const [$requestVerificationEmail, { isLoading: isSendingEmail, isSuccess }] =
     useMutation(requestVerificationEmail);
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -89,7 +89,7 @@ export const ProfilePage: BlitzPage = () => {
             <Alert
               variant="outline"
               icon={<IconAlertCircle size={"1rem"} />}
-              title="Warning!"
+              title={isSuccess ? "Email sent" : "Warning"}
               color="red"
             >
               <Vertical>
@@ -97,22 +97,30 @@ export const ProfilePage: BlitzPage = () => {
                   Your email is still not verified. Please check your inbox for
                   the welcome email we have sent you.
                 </Text>
-                <Button
-                  loading={isSendingEmail}
-                  onClick={async () => {
-                    await $requestVerificationEmail();
-                    notifications.show({
-                      color: "green",
-                      title: "Success",
-                      message: "Email sent!",
-                    });
-                  }}
-                  size="sm"
-                  color="red"
-                  variant="light"
-                >
-                  Resend email
-                </Button>
+                {!isSuccess && (
+                  <Button
+                    loading={isSendingEmail}
+                    onClick={async () => {
+                      await $requestVerificationEmail();
+                      notifications.show({
+                        color: "green",
+                        title: "Success",
+                        message: "Email sent!",
+                      });
+                    }}
+                    size="sm"
+                    color="red"
+                    variant="light"
+                  >
+                    Resend email
+                  </Button>
+                )}
+                {isSuccess && (
+                  <Text>
+                    The email has been sent and should arrive in the next few
+                    minutes. Please be patient and check your spam folder
+                  </Text>
+                )}
               </Vertical>
             </Alert>
           )}

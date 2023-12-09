@@ -17,19 +17,17 @@ const baseUrl = process.env.VERCEL_URL
   : "http://localhost:3000";
 
 const defaultProps = {
-  name: "Test User",
-  emailVerifyUrl: "Test User",
+  resetPasswordUrl: "http://localhost:3000",
 };
 
-export const EmailTemplateWelcome: ReactFC<{
-  props: { name?: string | null; emailVerifyUrl?: string | null };
+export const EmailTemplateResetPassword: ReactFC<{
+  props: { resetPasswordUrl: string };
 }> = ({ props = defaultProps }) => {
-  const { name } = props;
-  const welcomeMessage = name ? `Hello there ${name},` : "Hello,";
+  const { resetPasswordUrl } = props;
   return (
     <Html>
       <Head />
-      <Preview>Welcome to Eventio</Preview>
+      <Preview>Reset your password for Eventio</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={box}>
@@ -41,9 +39,13 @@ export const EmailTemplateWelcome: ReactFC<{
             />
             <Hr style={hr} />
             <Text style={paragraph}>
-              {welcomeMessage} welcome to our platform
+              You recently requested to reset your password for your Eventio
+              account. Click the button below to reset it. If you didn't request
+              this change, you can ignore this email.
             </Text>
-            <Button style={button}>Verify your account</Button>
+            <Button style={button} href={resetPasswordUrl}>
+              Reset your password
+            </Button>
             <Text style={paragraph}>— The Eventio team</Text>
             <Hr style={hr} />
             <Text style={footer}>
@@ -56,7 +58,7 @@ export const EmailTemplateWelcome: ReactFC<{
   );
 };
 
-export default EmailTemplateWelcome;
+export default EmailTemplateResetPassword;
 
 const main = {
   backgroundColor: "#f6f9fc",
