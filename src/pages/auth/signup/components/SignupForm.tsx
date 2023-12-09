@@ -6,7 +6,6 @@ import signup from "src/features/auth/mutations/signup";
 
 type SignupFormProps = {
   onSuccess?: () => void;
-  toggle: () => void;
 };
 
 export const SignupForm = (props: SignupFormProps) => {
