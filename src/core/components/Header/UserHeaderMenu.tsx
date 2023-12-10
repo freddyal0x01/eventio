@@ -1,21 +1,26 @@
 import { Routes } from "@blitzjs/next";
-import { Box, Indicator, Menu, Text, Tooltip } from "@mantine/core";
+import { useMutation } from "@blitzjs/rpc";
+import { Box, Indicator, Menu, Tooltip } from "@mantine/core";
 import {
-  IconArrowsLeftRight,
+  IconLogout,
   IconPencil,
-  IconSearch,
   IconSettings,
-  IconTrash,
   IconUser,
   IconUserShield,
 } from "@tabler/icons-react";
 import Conditional from "conditional-wrap";
+import { useRouter } from "next/router";
+import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { MenuItemIcon, MenuItemLink } from "../MenuItems";
 import { UserAvatar } from "../UserAvatar";
 
 const UserHeaderMenu = () => {
+  const [logoutMutation] = useMutation(logout);
+
   const user = useCurrentUser();
+
+  const router = useRouter();
 
   if (!user) return null;
 
@@ -47,11 +52,14 @@ const UserHeaderMenu = () => {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Label>Application</Menu.Label>
-        <MenuItemIcon Icon={IconSettings}>Settings</MenuItemIcon>
+        <Menu.Label>Account</Menu.Label>
+        <MenuItemLink Icon={IconSettings} href={Routes.SettingsPage()}>
+          Settings
+        </MenuItemLink>
         <MenuItemLink Icon={IconPencil} href={Routes.EditProfilePage()}>
           Edit Profile
         </MenuItemLink>
+
         {user.username && (
           <MenuItemLink
             Icon={IconUser}
@@ -62,7 +70,8 @@ const UserHeaderMenu = () => {
             Go to Profile
           </MenuItemLink>
         )}
-        <Menu.Item
+
+        {/* <Menu.Item
           icon={<IconSearch size={14} />}
           rightSection={
             <Text size="xs" color="dimmed">
@@ -71,17 +80,20 @@ const UserHeaderMenu = () => {
           }
         >
           Search
-        </Menu.Item>
+        </Menu.Item> */}
 
         <Menu.Divider />
 
-        <Menu.Label>Danger zone</Menu.Label>
-        <Menu.Item icon={<IconArrowsLeftRight size={14} />}>
-          Transfer my data
-        </Menu.Item>
-        <Menu.Item color="red" icon={<IconTrash size={14} />}>
-          Delete my account
-        </Menu.Item>
+        <MenuItemIcon
+          color="red.4"
+          onClick={async () => {
+            await logoutMutation();
+            router.push("/");
+          }}
+          Icon={IconLogout}
+        >
+          Logout
+        </MenuItemIcon>
       </Menu.Dropdown>
     </Menu>
   );

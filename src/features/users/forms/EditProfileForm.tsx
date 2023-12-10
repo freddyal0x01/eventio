@@ -23,7 +23,6 @@ export const EditProfileForm: ReactFC<{
         />
         <TextInput
           w={"100%"}
-          required
           label="Username"
           placeholder="Username"
           {...form.getInputProps("username")}

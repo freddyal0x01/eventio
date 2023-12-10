@@ -1,5 +1,4 @@
 import { ErrorBoundary, Routes } from "@blitzjs/next";
-import { useMutation } from "@blitzjs/rpc";
 import {
   Anchor,
   AppShell,
@@ -14,9 +13,8 @@ import { openContextModal } from "@mantine/modals";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { ReactNode, Suspense } from "react";
-import logout from "src/features/auth/mutations/logout";
+
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { GlobalModal } from "src/modals";
 import { ReactFC } from "types";
@@ -36,10 +34,7 @@ const Layout: ReactFC<{
   maxWidth?: number;
 }> = ({ title, maxWidth = 800, children }) => {
   const thisYear = new Date().getFullYear();
-  const [logoutMutation] = useMutation(logout);
   const user = useCurrentUser();
-
-  const router = useRouter();
 
   return (
     <>
@@ -93,17 +88,6 @@ const Layout: ReactFC<{
                   </Horizontal>
 
                   {/* <DarkLightSwitch /> */}
-
-                  {/* <Button
-                    size="xs"
-                    variant="light"
-                    onClick={async () => {
-                      await logoutMutation();
-                      router.push("/");
-                    }}
-                  >
-                    Logout
-                  </Button> */}
                 </Horizontal>
               )}
             </Horizontal>
@@ -146,7 +130,7 @@ const Layout: ReactFC<{
                 closeOnEscape={false}
                 withCloseButton={false}
                 title="Onboarding"
-                opened={!user?.onboarded}
+                opened={!!user && !user?.onboarded}
                 onClose={() => {}}
               >
                 <OnboardingWizard />
