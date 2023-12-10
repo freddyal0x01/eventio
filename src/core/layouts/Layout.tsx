@@ -4,19 +4,13 @@ import {
   Anchor,
   AppShell,
   Badge,
-  Box,
-  Button,
   Footer,
   Header,
-  Indicator,
   Loader,
   Modal,
   Text,
-  Tooltip,
 } from "@mantine/core";
 import { openContextModal } from "@mantine/modals";
-import { IconUserShield } from "@tabler/icons-react";
-import Conditional from "conditional-wrap";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import Head from "next/head";
 import Link from "next/link";
@@ -26,11 +20,10 @@ import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { GlobalModal } from "src/modals";
 import { ReactFC } from "types";
-import { DarkLightSwitch } from "../components/DarkLightSwitch";
+import UserHeaderMenu from "../components/Header/UserHeaderMenu";
 import UserProfileProgress from "../components/Header/UserProfileProgress";
 import { OnboardingWizard } from "../components/OnboardingWizard";
 import { RootErrorFallback } from "../components/RootErrorFallback";
-import { UserAvatar } from "../components/UserAvatar";
 
 type Props = {
   title?: string;
@@ -77,46 +70,12 @@ const Layout: ReactFC<{
               {user && (
                 <Horizontal center>
                   <Horizontal center spacing="xs">
-                    <Conditional
-                      condition={!!user.username}
-                      wrap={(children) => {
-                        return (
-                          <Link
-                            href={Routes.ProfilePage({
-                              username: user.username as string,
-                            })}
-                          >
-                            {children}
-                          </Link>
-                        );
-                      }}
-                    >
-                      <Horizontal>
-                        <Conditional
-                          condition={user.isAdmin}
-                          wrap={(children) => (
-                            <Indicator
-                              color="none"
-                              position="bottom-end"
-                              label={
-                                <Tooltip color="dark" label="Admin">
-                                  <Box>
-                                    <IconUserShield size={13} />
-                                  </Box>
-                                </Tooltip>
-                              }
-                            >
-                              {children}
-                            </Indicator>
-                          )}
-                        >
-                          <UserAvatar user={user} />
-                        </Conditional>
-                        <Text>{user.name}</Text>
+                    <Horizontal>
+                      <UserHeaderMenu />
+                      {/* <Text>{user.name}</Text> */}
 
-                        <UserProfileProgress />
-                      </Horizontal>
-                    </Conditional>
+                      <UserProfileProgress />
+                    </Horizontal>
                     <Badge
                       onClick={() => {
                         openContextModal({
@@ -133,9 +92,9 @@ const Layout: ReactFC<{
                     </Badge>
                   </Horizontal>
 
-                  <DarkLightSwitch />
+                  {/* <DarkLightSwitch /> */}
 
-                  <Button
+                  {/* <Button
                     size="xs"
                     variant="light"
                     onClick={async () => {
@@ -144,7 +103,7 @@ const Layout: ReactFC<{
                     }}
                   >
                     Logout
-                  </Button>
+                  </Button> */}
                 </Horizontal>
               )}
             </Horizontal>
