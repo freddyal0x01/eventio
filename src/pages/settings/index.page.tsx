@@ -4,6 +4,7 @@ import { IconMail, IconSettings, IconUserCog } from "@tabler/icons-react";
 import { Vertical } from "mantine-layout-components";
 import Layout from "src/core/layouts/Layout";
 import ChangePassword from "./components/ChangePassword";
+import UserEmailSettings from "./components/UserEmailSettings";
 
 export const SettingsPage: BlitzPage = () => {
   return (
@@ -27,7 +28,7 @@ export const SettingsPage: BlitzPage = () => {
           </Tabs.Panel>
 
           <Tabs.Panel value="email" pl="xs">
-            Email
+            <UserEmailSettings />
           </Tabs.Panel>
 
           <Tabs.Panel value="settings" pl="xs">
