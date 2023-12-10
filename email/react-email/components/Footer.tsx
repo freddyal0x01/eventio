@@ -1,10 +1,6 @@
 import { Hr, Text } from "@react-email/components";
 import { emailStyles } from "../styles";
 
-const anchor = {
-  color: "#556cd6",
-};
-
 const footer = {
   color: "#8898aa",
   fontSize: "12px",
