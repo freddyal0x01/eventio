@@ -7,6 +7,6 @@ export const useStringParam = (name) => {
 };
 
 export const useStringQueryParam = (name) => {
-  let {query} = useRouter();
+  let { query } = useRouter();
   return query[name];
-}
+};
