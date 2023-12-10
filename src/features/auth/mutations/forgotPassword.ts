@@ -1,5 +1,6 @@
 import { resolver } from "@blitzjs/rpc";
-import db, { TokenType } from "db";
+import { TokenType } from "@prisma/client";
+import db from "db";
 import EmailTemplateResetPassword from "email/react-email/emails/reset-password";
 import { sendEmail } from "email/sendEmail";
 import { createElement } from "react";

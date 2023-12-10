@@ -1,17 +1,27 @@
 import { BlitzPage } from "@blitzjs/next";
+import { useMutation } from "@blitzjs/rpc";
 import { Button } from "@mantine/core";
 import { MainAuthenticationForm } from "src/core/components/MainAuthenticationForm";
 import Layout from "src/core/layouts/Layout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
+import sendDummyEmail from "src/features/users/mutations/sendDummyEmail";
 
 const Home: BlitzPage = () => {
   const user = useCurrentUser();
+
+  const [$sendEmail] = useMutation(sendDummyEmail);
 
   return (
     <Layout title="Home">
       {!user && <MainAuthenticationForm />}
 
-      <Button>Hello there</Button>
+      <Button
+        onClick={() => {
+          $sendEmail({});
+        }}
+      >
+        Send Dummy Email
+      </Button>
     </Layout>
   );
 };

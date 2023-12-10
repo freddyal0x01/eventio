@@ -5,7 +5,7 @@ let user = env.NODEMAILER_LOCAL_USER;
 let pass = env.NODEMAILER_LOCAL_PASS;
 
 export const nodemailerAppTranport = nodemailer.createTransport({
-  host: "127.0.0.1",
+  host: "localhost",
   port: 1025,
   auth: {
     user: user,

@@ -1,7 +1,8 @@
 import { hash256 } from "@blitzjs/auth";
 import { SecurePassword } from "@blitzjs/auth/secure-password";
 import { resolver } from "@blitzjs/rpc";
-import db, { TokenType } from "db";
+import { TokenType } from "@prisma/client";
+import db from "db";
 import { ResetPasswordInput } from "../schemas";
 import login from "./login";
 

@@ -5,27 +5,27 @@ import db from "db";
 import { z } from "zod";
 
 const Input = z.object({
-  token: z.string(),
+  token: z.string().optional(),
 });
 
 export default resolver.pipe(resolver.zod(Input), async ({ token }) => {
-  let hashedToken = hash256(token);
+  const hashedToken = hash256(token);
 
   const possibleToken = await db.token.findFirst({
-    where: { hashedToken, type: TokenType.VERIFY_EMAIL },
-    include: { user: true },
+    where: { hashedToken, type: TokenType.UNSUBSCRIBE_EMAIL },
+    include: {
+      user: {
+        select: {
+          settingsEmailMarketing: true,
+          settingsEmailProduct: true,
+        },
+      },
+    },
   });
 
-  if (!possibleToken) throw new Error("Invalid token");
-
-  await db.token.delete({ where: { id: possibleToken.id } });
+  if (!possibleToken) throw new Error("Token not found");
 
   if (possibleToken.expiresAt < new Date()) throw new Error("Token expired");
 
-  await db.user.update({
-    where: { id: possibleToken.userId },
-    data: { emailVerifiedAt: new Date() },
-  });
-
-  return true;
+  return possibleToken.user;
 });

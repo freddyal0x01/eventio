@@ -1,9 +1,9 @@
 import { useMutation } from "@blitzjs/rpc";
 import { Checkbox } from "@mantine/core";
-import setUserSettings from "src/features/users/mutations/setUserSettings";
+import setUserSetting from "src/features/users/mutations/setUserSetting";
 
 const ToggleUserSetting = ({ settings, setting, label }) => {
-  const [$setUserSetting, { isLoading }] = useMutation(setUserSettings);
+  const [$setUserSetting, { isLoading }] = useMutation(setUserSetting);
 
   return (
     <Checkbox
