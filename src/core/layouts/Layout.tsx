@@ -26,6 +26,7 @@ import logout from "src/features/auth/mutations/logout";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { GlobalModal } from "src/modals";
 import { ReactFC } from "types";
+import { DarkLightSwitch } from "../components/DarkLightSwitch";
 import UserProfileProgress from "../components/Header/UserProfileProgress";
 import { OnboardingWizard } from "../components/OnboardingWizard";
 import { RootErrorFallback } from "../components/RootErrorFallback";
@@ -66,7 +67,6 @@ const Layout: ReactFC<{
             <Horizontal fullH fullW spaceBetween>
               <Anchor
                 underline={false}
-                color="gray.3"
                 component={Link}
                 href={Routes.Home()}
                 fw="bold"
@@ -132,6 +132,9 @@ const Layout: ReactFC<{
                       Pro
                     </Badge>
                   </Horizontal>
+
+                  <DarkLightSwitch />
+
                   <Button
                     size="xs"
                     variant="light"
