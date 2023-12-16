@@ -1,6 +1,5 @@
 import { resolver } from "@blitzjs/rpc";
 import db from "db";
-import EmailTemplateDummy from "email/react-email/emails/dummy";
 import { sendBulkEmail } from "email/sendBulkEmail";
 import { Email } from "email/types";
 import { chunk } from "lodash";
@@ -8,23 +7,27 @@ import { createElement } from "react";
 import { isDev } from "src/config";
 import { generateUnsubscribeLink } from "src/uploadthing/email-utils";
 import { z } from "zod";
-import { EmailList } from "../types";
+import { emailTemplates } from "../templates";
+import { EmailList, EmailTemplate } from "../types";
 
 const Input = z.object({
   list: z.nativeEnum(EmailList),
+  template: z.nativeEnum(EmailTemplate),
 });
 
 export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
-  async ({ list }, { session: { userId } }) => {
+  async ({ list, template }, { session: { userId } }) => {
     const user = await db.user.findUnique({
       where: { id: userId },
     });
 
     if (!user) throw new Error("User not found");
 
-    console.log("list is", list);
+    const foundEmailTemplate = emailTemplates.find((e) => e.value == template);
+
+    if (!foundEmailTemplate) throw new Error("Email template not found");
 
     const users = await db.user.findMany({
       where: {
@@ -52,7 +55,6 @@ export default resolver.pipe(
     const chunks = chunk(users, CHUNK_SIZE);
 
     console.log("chunks", chunks);
-
     console.log(`sending email to ${users.length} users`);
 
     for (const chunk of chunks) {
@@ -66,7 +68,7 @@ export default resolver.pipe(
           return {
             to: user.email,
             subject: `Hey there ${user.name}`,
-            react: createElement(EmailTemplateDummy, {
+            react: createElement(foundEmailTemplate.component, {
               props: {
                 name: user.name,
                 emailVerifyUrl: "",
@@ -77,7 +79,6 @@ export default resolver.pipe(
         }),
       );
 
-      console.log("emails are", emails);
       await sendBulkEmail({ emails });
     }
   },

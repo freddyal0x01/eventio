@@ -4,7 +4,9 @@ import { Button, Select } from "@mantine/core";
 import { Vertical } from "mantine-layout-components";
 import { useState } from "react";
 import sendBulkEmail from "src/features/email/mutations/sendBulkEmail";
-import { EmailList } from "src/features/email/types";
+import sendDummyEmail from "src/features/email/mutations/sendDummyEmail";
+import { emailTemplates } from "src/features/email/templates";
+import { EmailList, EmailTemplate } from "src/features/email/types";
 
 const options = [
   { value: EmailList.Marketing, label: "Marketing" },
@@ -14,7 +16,11 @@ const options = [
 
 export const AdminPageEmailTab: BlitzPage = () => {
   const [list, setList] = useState<EmailList>(EmailList.Marketing);
+  const [template, setTemplate] = useState<EmailTemplate>(
+    emailTemplates[0]!.value,
+  );
   const [$sendBulkEmail] = useMutation(sendBulkEmail);
+  const [$sendEmail] = useMutation(sendDummyEmail);
 
   return (
     <Vertical>
@@ -25,9 +31,21 @@ export const AdminPageEmailTab: BlitzPage = () => {
         value={list}
         onChange={(value) => setList(value as EmailList)}
       />
+      <Select
+        label="Choose a template"
+        placeholder="Pick one"
+        data={emailTemplates.map((e) => ({
+          value: e.value,
+          label: e.name,
+        }))}
+        value={template}
+        onChange={(value) => {
+          setTemplate(value as EmailTemplate);
+        }}
+      />
       <Button
         onClick={() => {
-          $sendBulkEmail({ list });
+          $sendBulkEmail({ list, template });
         }}
       >
         Send bulk email
