@@ -6,6 +6,7 @@ import { chunk } from "lodash";
 import { createElement } from "react";
 import { isDev } from "src/config";
 import { generateUnsubscribeLink } from "src/uploadthing/email-utils";
+import { convertArrayToObject } from "src/utils/utils";
 import { z } from "zod";
 import { emailTemplates } from "../templates";
 import { EmailList, EmailTemplate } from "../types";
@@ -13,15 +14,23 @@ import { EmailList, EmailTemplate } from "../types";
 const Input = z.object({
   list: z.nativeEnum(EmailList),
   template: z.nativeEnum(EmailTemplate),
+  variables: z.array(
+    z.object({
+      key: z.string(),
+      value: z.string(),
+    }),
+  ),
 });
 
 export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
-  async ({ list, template }, { session: { userId } }) => {
+  async ({ list, template, variables }, { session: { userId } }) => {
     const user = await db.user.findUnique({
       where: { id: userId },
     });
+
+    console.log("variables", variables);
 
     if (!user) throw new Error("User not found");
 
@@ -54,9 +63,6 @@ export default resolver.pipe(
 
     const chunks = chunk(users, CHUNK_SIZE);
 
-    console.log("chunks", chunks);
-    console.log(`sending email to ${users.length} users`);
-
     for (const chunk of chunks) {
       const emails: Email[] = await Promise.all(
         chunk.map(async (user): Promise<Email> => {
@@ -71,8 +77,8 @@ export default resolver.pipe(
             react: createElement(foundEmailTemplate.component, {
               props: {
                 name: user.name,
-                emailVerifyUrl: "",
                 unsubscribeLink,
+                ...convertArrayToObject(variables),
               },
             }),
           };

@@ -8,3 +8,10 @@ export enum EmailTemplate {
   Dummy = "dummy",
   BlackFriday = "blackFriday",
 }
+
+export type VariableType = {
+  id: string;
+  key: string;
+  value: string;
+  isTextArea?: boolean;
+};

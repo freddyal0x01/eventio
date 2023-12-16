@@ -14,7 +14,11 @@ import { useState } from "react";
 import { UseArray, useArray } from "react-hanger";
 import sendBulkEmail from "src/features/email/mutations/sendBulkEmail";
 import { emailTemplates } from "src/features/email/templates";
-import { EmailList, EmailTemplate } from "src/features/email/types";
+import {
+  EmailList,
+  EmailTemplate,
+  VariableType,
+} from "src/features/email/types";
 import { updateArrayMemberById } from "src/utils/react-hanger-utils";
 import { convertArrayToObject } from "src/utils/utils";
 import { ReactFC } from "types";
@@ -25,21 +29,12 @@ const options = [
   { value: EmailList.All, label: "All" },
 ];
 
-type VariableType = {
-  id: string;
-  key: string;
-  value: string;
-  isTextArea?: boolean;
-};
-
 type Variables = UseArray<any>;
 
 const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
   variable,
   variables,
 }) => {
-  const WritingElement = variable.isTextArea ? Textarea : Input;
-
   const updateVariable = (update: Partial<VariableType>) => {
     updateArrayMemberById({
       array: variables,
@@ -130,7 +125,7 @@ export const AdminPageEmailTab: BlitzPage = () => {
     emailTemplates[0]!.value,
   );
 
-  const variables = useArray([]);
+  const variables = useArray<VariableType>([]);
 
   const [$sendBulkEmail] = useMutation(sendBulkEmail);
 
@@ -165,7 +160,14 @@ export const AdminPageEmailTab: BlitzPage = () => {
         <VariablesManager variables={variables} />
         <Button
           onClick={() => {
-            $sendBulkEmail({ list, template });
+            $sendBulkEmail({
+              list,
+              template,
+              variables: variables.value.map((v) => ({
+                key: v.key,
+                value: v.value,
+              })),
+            });
           }}
         >
           Send bulk email
