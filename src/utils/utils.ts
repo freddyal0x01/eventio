@@ -10,3 +10,15 @@ export const useStringQueryParam = (name) => {
   let { query } = useRouter();
   return query[name];
 };
+
+type ArrayItem = {
+  key: string;
+  value: string;
+};
+
+export const convertArrayToObject = (array: ArrayItem[]) => {
+  return array.reduce((obj, item) => {
+    obj[item.key] = item.value;
+    return obj;
+  }, {});
+};
