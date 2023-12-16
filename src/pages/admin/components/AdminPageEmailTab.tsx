@@ -1,7 +1,14 @@
 import { BlitzPage } from "@blitzjs/next";
 import { useMutation } from "@blitzjs/rpc";
-import { ActionIcon, Button, Input, Select } from "@mantine/core";
-import { IconTrash } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Button,
+  Input,
+  Select,
+  Textarea,
+  Tooltip,
+} from "@mantine/core";
+import { IconPencil, IconTextResize, IconTrash } from "@tabler/icons-react";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import { useState } from "react";
 import { UseArray, useArray } from "react-hanger";
@@ -22,6 +29,7 @@ type VariableType = {
   id: string;
   key: string;
   value: string;
+  isTextArea?: boolean;
 };
 
 type Variables = UseArray<any>;
@@ -30,42 +38,62 @@ const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
   variable,
   variables,
 }) => {
+  const WritingElement = variable.isTextArea ? Textarea : Input;
+
+  const updateVariable = (update: Partial<VariableType>) => {
+    updateArrayMemberById({
+      array: variables,
+      id: variable.id,
+      update,
+    });
+  };
+
+  const writingElementProps = {
+    onChange: (e) => updateVariable({ value: e.target.value }),
+    placeholder: "Value",
+    value: variable.value,
+  };
+
   return (
     <Horizontal>
-      <ActionIcon
-        color="red"
-        onClick={() => {
-          variables.removeById(variable.id);
-        }}
-      >
-        <IconTrash size={13} />
-      </ActionIcon>
+      <Horizontal spacing={"xs"}>
+        <ActionIcon
+          variant="light"
+          color="red"
+          onClick={() => {
+            variables.removeById(variable.id);
+          }}
+        >
+          <IconTrash size={13} />
+        </ActionIcon>
+        <Tooltip
+          label={`Change to ${variable.isTextArea ? "input" : "textarea"}`}
+        >
+          <ActionIcon
+            variant="light"
+            onClick={() => {
+              updateVariable({ isTextArea: !variable.isTextArea });
+            }}
+          >
+            {variable.isTextArea ? (
+              <IconTextResize size={13} />
+            ) : (
+              <IconPencil size={13} />
+            )}
+          </ActionIcon>
+        </Tooltip>
+      </Horizontal>
       <Input
         onChange={(e) => {
-          updateArrayMemberById({
-            array: variables,
-            id: variable.id,
-            update: {
-              key: e.target.value,
-            },
-          });
+          updateVariable({ key: e.target.value });
         }}
         placeholder="Key"
         value={variable.key}
       />
-      <Input
-        onChange={(e) => {
-          updateArrayMemberById({
-            array: variables,
-            id: variable.id,
-            update: {
-              value: e.target.value,
-            },
-          });
-        }}
-        placeholder="Value"
-        value={variable.value}
-      />
+      {variable.isTextArea && (
+        <Textarea minRows={10} w={300} {...writingElementProps} />
+      )}
+      {!variable.isTextArea && <Input {...writingElementProps} />}
     </Horizontal>
   );
 };

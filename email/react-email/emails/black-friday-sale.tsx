@@ -18,6 +18,7 @@ const defaultProps = {
   unsubscribeLink: "",
   title: "Black Friday Savings",
   mainButtonText: "Shop Now",
+  text: "Default text here",
 };
 
 export const EmailTemplateBlackFriday: ReactFC<{
@@ -26,9 +27,10 @@ export const EmailTemplateBlackFriday: ReactFC<{
     unsubscribeLink: string;
     title?: string;
     mainButtonText?: string;
+    text?: string;
   };
 }> = ({ props = defaultProps }) => {
-  const { unsubscribeLink, title, mainButtonText } = props;
+  const { unsubscribeLink, text, title, mainButtonText } = props;
   return (
     <Html>
       <Head />
@@ -38,6 +40,7 @@ export const EmailTemplateBlackFriday: ReactFC<{
           <Section style={emailStyles.box}>
             <Header />
             <Text style={emailStyles.paragraph}>{title}</Text>
+            <Text>{text}</Text>
             <MainButton href="https://dashboard.stripe.com/login">
               {mainButtonText}
             </MainButton>
