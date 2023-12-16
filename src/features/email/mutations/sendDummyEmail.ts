@@ -26,7 +26,6 @@ export default resolver.pipe(
     await sendEmail({
       to: user.email,
       subject: "Hey there dummy user",
-      text: "",
       react: createElement(EmailTemplateDummy, {
         props: {
           name: user.name,
