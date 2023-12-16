@@ -15,18 +15,20 @@ import { emailStyles } from "../styles";
 
 const defaultProps = {
   name: "Test User",
-  emailVerifyUrl: "Test User",
   unsubscribeLink: "",
+  title: "Black Friday Savings",
+  mainButtonText: "Shop Now",
 };
 
 export const EmailTemplateBlackFriday: ReactFC<{
   props: {
     name?: string | null;
-    emailVerifyUrl?: string | null;
     unsubscribeLink: string;
+    title?: string;
+    mainButtonText?: string;
   };
 }> = ({ props = defaultProps }) => {
-  const { name, unsubscribeLink } = props;
+  const { unsubscribeLink, title, mainButtonText } = props;
   return (
     <Html>
       <Head />
@@ -35,11 +37,9 @@ export const EmailTemplateBlackFriday: ReactFC<{
         <Container style={emailStyles.container}>
           <Section style={emailStyles.box}>
             <Header />
-            <Text style={emailStyles.paragraph}>
-              Black Friday Discount Ends Soon!
-            </Text>
+            <Text style={emailStyles.paragraph}>{title}</Text>
             <MainButton href="https://dashboard.stripe.com/login">
-              Use our black friday discount!
+              {mainButtonText}
             </MainButton>
             <Footer unsubscribeLink={unsubscribeLink} />
           </Section>
