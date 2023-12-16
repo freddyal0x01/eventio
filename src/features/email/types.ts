@@ -15,3 +15,12 @@ export type VariableType = {
   value: string;
   isTextArea?: boolean;
 };
+
+export type SpecialVariables = {
+  userName: string;
+  userEmail: string;
+  userId: string;
+  userBio: string;
+  userUsername: string;
+  userAvatarImageKey: string;
+};
