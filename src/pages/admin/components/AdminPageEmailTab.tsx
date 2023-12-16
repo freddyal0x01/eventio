@@ -51,6 +51,15 @@ const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
     value: variable.value,
   };
 
+  // const writingTextElementProps = {
+  //   onChange: (e) => {
+  //     console.log(e);
+  //     // updateVariable({ value: e.value });
+  //   },
+  //   placeholder: "Value",
+  //   value: variable.value,
+  // };
+
   return (
     <Horizontal>
       <Horizontal spacing={"xs"}>
@@ -90,6 +99,9 @@ const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
       {variable.isTextArea && (
         <Textarea minRows={10} w={300} {...writingElementProps} />
       )}
+      {/* {variable.isTextArea && (
+        <RichTextEditorTextArea {...writingTextElementProps} />
+      )} */}
       {!variable.isTextArea && <Input {...writingElementProps} />}
     </Horizontal>
   );
