@@ -3,8 +3,8 @@ import { useMutation } from "@blitzjs/rpc";
 import { Button } from "@mantine/core";
 import { MainAuthenticationForm } from "src/core/components/MainAuthenticationForm";
 import Layout from "src/core/layouts/Layout";
+import sendDummyEmail from "src/features/email/mutations/sendDummyEmail";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
-import sendDummyEmail from "src/features/users/mutations/sendDummyEmail";
 
 const Home: BlitzPage = () => {
   const user = useCurrentUser();

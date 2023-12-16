@@ -40,4 +40,5 @@ export const SettingsPage: BlitzPage = () => {
   );
 };
 
+SettingsPage.authenticate = true;
 export default SettingsPage;

@@ -59,6 +59,11 @@ const UserHeaderMenu = () => {
         <MenuItemLink Icon={IconPencil} href={Routes.EditProfilePage()}>
           Edit Profile
         </MenuItemLink>
+        {user.isAdmin && (
+          <MenuItemLink Icon={IconUserShield} href={Routes.AdminPage()}>
+            Admin
+          </MenuItemLink>
+        )}
 
         {user.username && (
           <MenuItemLink
