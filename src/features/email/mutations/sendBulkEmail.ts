@@ -78,7 +78,7 @@ export default resolver.pipe(
       );
 
       console.log("emails are", emails);
-      sendBulkEmail({ emails });
+      await sendBulkEmail({ emails });
     }
   },
 );
