@@ -38,7 +38,6 @@ const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
   variable,
   variables,
 }) => {
-  console.log(variable);
   const updateVariable = (update: Partial<VariableType>) => {
     updateArrayMemberById({
       array: variables,
