@@ -13,7 +13,6 @@ export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
   async ({ key, value }, { session: { userId } }) => {
-    console.log(`setting ${key} to ${value}`);
     return db.user.update({
       where: {
         id: userId,

@@ -7,10 +7,10 @@ import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const RichTextEditorTextArea = ({ onChange, placeholder, value }) => {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(value);
 
   const editor = useEditor({
     extensions: [
@@ -24,22 +24,30 @@ const RichTextEditorTextArea = ({ onChange, placeholder, value }) => {
       Placeholder.configure({ placeholder }),
     ],
     content,
-    // onUpdate: ({ editor }) => {
-    //   const newValue = editor.getHTML();
-    //   setContent(newValue);
-    //   console.log(onChange(newValue));
-    // },
   });
 
-  // useEffect(() => {
-  //   if (editor) {
-  //     editor.commands.setContent(value);
-  //   }
-  // }, [value, editor]);
+  useEffect(() => {
+    setContent(value);
+  }, [value]);
 
-  onChange(setContent(value));
+  const handleEditorChange = () => {
+    const newContent = editor?.getHTML();
+    setContent(newContent); // Update local state
+    onChange(newContent); // Propagate changes upwards
+  };
 
-  // console.log(onChange(value));
+  useEffect(() => {
+    if (editor) {
+      editor.on("update", handleEditorChange);
+    }
+
+    // Cleanup
+    return () => {
+      if (editor) {
+        editor.off("update", handleEditorChange);
+      }
+    };
+  }, [editor, handleEditorChange]);
 
   return (
     <RichTextEditor editor={editor}>

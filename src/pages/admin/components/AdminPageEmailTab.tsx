@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { IconPencil, IconTextResize, IconTrash } from "@tabler/icons-react";
+import RichTextEditorTextArea from "email/react-email/components/RichTextEditorTextArea";
 import { Horizontal, Vertical } from "mantine-layout-components";
 import { useState } from "react";
 import { UseArray, useArray, useInput } from "react-hanger";
@@ -37,6 +38,7 @@ const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
   variable,
   variables,
 }) => {
+  console.log(variable);
   const updateVariable = (update: Partial<VariableType>) => {
     updateArrayMemberById({
       array: variables,
@@ -46,19 +48,20 @@ const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
   };
 
   const writingElementProps = {
-    onChange: (e) => updateVariable({ value: e.target.value }),
+    onChange: (e) => {
+      updateVariable({ value: e.target.value });
+    },
     placeholder: "Value",
     value: variable.value,
   };
 
-  // const writingTextElementProps = {
-  //   onChange: (e) => {
-  //     console.log(e);
-  //     // updateVariable({ value: e.value });
-  //   },
-  //   placeholder: "Value",
-  //   value: variable.value,
-  // };
+  const writingTextElementProps = {
+    onChange: (e) => {
+      updateVariable({ value: e });
+    },
+    placeholder: "Value",
+    value: variable.value,
+  };
 
   return (
     <Horizontal>
@@ -96,12 +99,12 @@ const Variable: ReactFC<{ variable: VariableType; variables: Variables }> = ({
         placeholder="Key"
         value={variable.key}
       />
-      {variable.isTextArea && (
+      {variable.isTextArea && variable.key !== "text" && (
         <Textarea minRows={10} w={300} {...writingElementProps} />
       )}
-      {/* {variable.isTextArea && (
+      {variable.isTextArea && variable.key === "text" && (
         <RichTextEditorTextArea {...writingTextElementProps} />
-      )} */}
+      )}
       {!variable.isTextArea && <Input {...writingElementProps} />}
     </Horizontal>
   );
@@ -162,8 +165,6 @@ export const AdminPageEmailTab: BlitzPage = () => {
   });
 
   const componentProps = convertArrayToObject(remappedVariables);
-
-  console.log("Component Props", componentProps);
 
   return (
     <Horizontal align="flex-start" mih={"100vh"} fullH>

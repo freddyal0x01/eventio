@@ -32,8 +32,6 @@ export default resolver.pipe(
       where: { id: userId },
     });
 
-    console.log("variables", variables);
-
     if (!user) throw new Error("User not found");
 
     const foundEmailTemplate = emailTemplates.find((e) => e.value == template);

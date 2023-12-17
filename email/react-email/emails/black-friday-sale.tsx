@@ -42,7 +42,7 @@ export const EmailTemplateBlackFriday: ReactFC<{
             <Text style={emailStyles.paragraph}>{title}</Text>
             <Text
               dangerouslySetInnerHTML={{
-                __html: text?.replace(/\n/g, "<br />"),
+                __html: text as string,
               }}
             />
             <MainButton href="https://dashboard.stripe.com/login">
