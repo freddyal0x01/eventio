@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
 import { onOrderCreated } from "./hooks/onOrderCreated";
+import { onOrderRefunded } from "./hooks/onOrderRefunded";
 import { LemonEventType, ResBody } from "./types";
 import { returnError, returnOkay } from "./utils";
 import { validateLemonSqueezyHook } from "./validateLemonSqueezyHook";
@@ -45,6 +46,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const handlers = {
       [LemonEventType.OrderCreated]: onOrderCreated,
+      [LemonEventType.OrderRefunded]: onOrderRefunded,
     };
 
     const foundHandler = handlers[eventType];
