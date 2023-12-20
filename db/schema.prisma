@@ -44,10 +44,23 @@ model User {
   tokens   Token[]
   sessions Session[]
 
-  //settings
+  //payments
+  hasLifetimeAccess Boolean             @default(false)
+  Orders            LemonSqueezyOrder[]
 
+  //settings
   settingsEmailMarketing Boolean @default(true)
   settingsEmailProduct   Boolean @default(true)
+}
+
+model LemonSqueezyOrder {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  orderId    String   @unique
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  attributes Json
 }
 
 model Session {
