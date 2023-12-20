@@ -1,4 +1,5 @@
 import { useParam } from "@blitzjs/next";
+import { Prisma } from "@prisma/client";
 import { useRouter } from "next/router";
 
 export const useStringParam = (name) => {
@@ -21,4 +22,26 @@ export const convertArrayToObject = (array: ArrayItem[]) => {
     obj[item.key] = item.value;
     return obj;
   }, {});
+};
+
+export const isIos =
+  typeof navigator !== "undefined" &&
+  (/iPad|iPhone|iPod/.test(navigator.userAgent || "") ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+export const isSafari =
+  typeof navigator !== "undefined" &&
+  /Version\/[\d\.]+.*Safari/.test(navigator.userAgent);
+
+export let openUrlInNewTab = async (url) => {
+  if (url) {
+    if (isIos || isSafari) {
+      window.location.assign(url);
+    } else {
+      window.open(url, "_blank");
+    }
+  }
+};
+
+export const storePrismaJson = (json) => {
+  return JSON.parse(JSON.stringify(json)) as Prisma.JsonObject;
 };

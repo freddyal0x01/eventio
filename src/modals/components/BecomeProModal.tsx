@@ -1,7 +1,10 @@
-import { Button, Modal } from "@mantine/core";
+import { useMutation } from "@blitzjs/rpc";
+import { Button, Text } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
 import { Horizontal, Vertical } from "mantine-layout-components";
-import { useBoolean } from "react-hanger";
+import generateCheckoutLink from "src/features/payments/mutations/generateCheckoutLink";
+import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
+import { openUrlInNewTab } from "src/utils/utils";
 import { ReactFC } from "types";
 
 type InnerProps = {
@@ -13,37 +16,41 @@ export const BecomeProModalComponent: ReactFC<
 > = ({ context, id, innerProps }) => {
   const { price } = innerProps;
 
-  const tellMeMoreOpened = useBoolean(false);
+  const user = useCurrentUser();
+
+  const [$generateCheckoutLink, { isLoading }] =
+    useMutation(generateCheckoutLink);
+
+  let onPurchaseClick = async () => {
+    const checkoutUrl = await $generateCheckoutLink({});
+    openUrlInNewTab(checkoutUrl);
+  };
 
   const closeModal = () => context.closeModal(id);
 
   return (
     <Vertical fullW spacing={15}>
-      <Vertical>You can purchase pro for ${price}</Vertical>
-      <Button onClick={tellMeMoreOpened.setTrue}>Tell me more</Button>
-      <Modal
-        overlayProps={{
-          blur: 2,
-        }}
-        title="Pro Plan Details"
-        zIndex={210}
-        opened={tellMeMoreOpened.value}
-        onClose={tellMeMoreOpened.setFalse}
-      >
-        More information about the pro plan
-      </Modal>
-      <Horizontal fullW spaceBetween>
-        <Button color="gray" onClick={closeModal}>
-          Cancel
-        </Button>
-        <Button
-          onClick={() => {
-            console.log("submit");
-          }}
-        >
-          Submit
-        </Button>
-      </Horizontal>
+      {!user?.hasLifetimeAccess && (
+        <>
+          <Vertical>You can purchase pro for ${price}</Vertical>
+          <Horizontal fullW spaceBetween>
+            <Button color="gray" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button loading={isLoading} onClick={onPurchaseClick}>
+              Purchase
+            </Button>
+          </Horizontal>
+        </>
+      )}
+      {user?.hasLifetimeAccess && (
+        <Vertical>
+          <Text>Thank you for being a customer!</Text>
+          <Button color="gray" onClick={closeModal}>
+            Cancel
+          </Button>
+        </Vertical>
+      )}
     </Vertical>
   );
 };
