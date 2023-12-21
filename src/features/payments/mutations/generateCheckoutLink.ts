@@ -2,14 +2,16 @@ import { resolver } from "@blitzjs/rpc";
 import db from "db";
 import { env } from "src/env.mjs";
 import { z } from "zod";
-import { lemonClient } from "../lemonClient";
+import { lemonClient } from "../lemon/lemonClient";
 
-const Input = z.object({});
+const Input = z.object({
+  variantId: z.string(),
+});
 
 export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
-  async ({}, { session: { userId } }) => {
+  async ({ variantId }, { session: { userId } }) => {
     const user = await db.user.findUnique({
       where: {
         id: userId,
@@ -22,7 +24,7 @@ export default resolver.pipe(
 
     const checkoutLink = await lemonClient.createCheckout({
       storeId: env.LEMONSQUEEZY_STORE_ID,
-      variantId: env.LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID,
+      variantId: variantId,
       attributes: {
         checkout_data: {
           email: user.email,

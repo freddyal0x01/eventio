@@ -15,7 +15,6 @@ export const env = createEnv({
     UPLOADTHING_APP_ID: z.string(),
     LEMONSQUEEZY_WEBHOOK_SECRET: z.string(),
     LEMONSQUEEZY_API_KEY: z.string(),
-    LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID: z.string(),
     LEMONSQUEEZY_STORE_ID: z.string(),
   },
   /*
@@ -23,7 +22,11 @@ export const env = createEnv({
    *
    * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
    */
-  client: {},
+  client: {
+    NEXT_PUBLIC_LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID: z.string(),
+    NEXT_PUBLIC_LEMONSQUEEZY_ANNUAL_PLAN_VARIANT_ID: z.string(),
+    NEXT_PUBLIC_LEMONSQUEEZY_MONTHLY_PLAN_VARIANT_ID: z.string(),
+  },
   /*
    * Due to how Next.js bundles environment variables on Edge and Client,
    * we need to manually destructure them to make sure all are included in bundle.
@@ -38,8 +41,12 @@ export const env = createEnv({
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     LEMONSQUEEZY_WEBHOOK_SECRET: process.env.LEMONSQUEEZY_WEBHOOK_SECRET,
     LEMONSQUEEZY_API_KEY: process.env.LEMONSQUEEZY_API_KEY,
-    LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID:
-      process.env.LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID,
+    NEXT_PUBLIC_LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID:
+      process.env.NEXT_PUBLIC_LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID,
+    NEXT_PUBLIC_LEMONSQUEEZY_ANNUAL_PLAN_VARIANT_ID:
+      process.env.NEXT_PUBLIC_LEMONSQUEEZY_ANNUAL_PLAN_VARIANT_ID,
+    NEXT_PUBLIC_LEMONSQUEEZY_MONTHLY_PLAN_VARIANT_ID:
+      process.env.NEXT_PUBLIC_LEMONSQUEEZY_MONTHLY_PLAN_VARIANT_ID,
     LEMONSQUEEZY_STORE_ID: process.env.LEMONSQUEEZY_STORE_ID,
   },
 });

@@ -2,6 +2,7 @@ import { useMutation } from "@blitzjs/rpc";
 import { Button, Text } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
 import { Horizontal, Vertical } from "mantine-layout-components";
+import { paymentPlans } from "src/features/payments/lemon/config";
 import generateCheckoutLink from "src/features/payments/mutations/generateCheckoutLink";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { openUrlInNewTab } from "src/utils/utils";
@@ -11,44 +12,49 @@ type InnerProps = {
   price: number;
 };
 
-export const BecomeProModalComponent: ReactFC<
-  ContextModalProps<InnerProps>
-> = ({ context, id, innerProps }) => {
-  const { price } = innerProps;
-
-  const user = useCurrentUser();
-
+const PaymentPlan: ReactFC<{
+  plan: (typeof paymentPlans)[0];
+}> = ({ plan }) => {
   const [$generateCheckoutLink, { isLoading }] =
     useMutation(generateCheckoutLink);
 
-  let onPurchaseClick = async () => {
-    const checkoutUrl = await $generateCheckoutLink({});
+  let choosePlan = async ({ variantId }) => {
+    const checkoutUrl = await $generateCheckoutLink({ variantId });
     openUrlInNewTab(checkoutUrl);
   };
 
-  const closeModal = () => context.closeModal(id);
+  return (
+    <Vertical>
+      <Button
+        loading={isLoading}
+        onClick={() => choosePlan({ variantId: plan.variantId })}
+      >
+        {plan.name} (${plan.price}) {plan.description}
+      </Button>
+    </Vertical>
+  );
+};
+
+export const BecomeProModalComponent: ReactFC<
+  ContextModalProps<InnerProps>
+> = ({}) => {
+  const user = useCurrentUser();
 
   return (
     <Vertical fullW spacing={15}>
       {!user?.hasLifetimeAccess && (
         <>
-          <Vertical>You can purchase pro for ${price}</Vertical>
+          <Vertical>Choose billing plan</Vertical>
           <Horizontal fullW spaceBetween>
-            <Button color="gray" onClick={closeModal}>
-              Cancel
-            </Button>
-            <Button loading={isLoading} onClick={onPurchaseClick}>
-              Purchase
-            </Button>
+            {paymentPlans.map((plan) => (
+              <PaymentPlan plan={plan} key={plan.variantId} />
+            ))}
           </Horizontal>
         </>
       )}
       {user?.hasLifetimeAccess && (
         <Vertical>
           <Text>Thank you for being a customer!</Text>
-          <Button color="gray" onClick={closeModal}>
-            Cancel
-          </Button>
         </Vertical>
       )}
     </Vertical>
