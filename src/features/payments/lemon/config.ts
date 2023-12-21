@@ -16,7 +16,7 @@ export const paymentPlans = [
   {
     variantId: env.NEXT_PUBLIC_LEMONSQUEEZY_LIFETIME_PLAN_VARIANT_ID,
     name: "Lifetime",
-    price: 399.99,
+    price: 299.99,
     description: "one time",
   },
 ];
