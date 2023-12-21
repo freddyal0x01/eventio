@@ -2,6 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
 import { onOrderCreated } from "./hooks/onOrderCreated";
 import { onOrderRefunded } from "./hooks/onOrderRefunded";
+import { onSubscriptionCreated } from "./hooks/onSubscriptionCreated";
+import { onSubscriptionPaymentSuccess } from "./hooks/onSubscriptionPaymentSuccess";
+import { onSubscriptionUpdated } from "./hooks/onSubscriptionUpdated";
 import { LemonEventType, ResBody } from "./types";
 import { returnError, returnOkay } from "./utils";
 import { validateLemonSqueezyHook } from "./validateLemonSqueezyHook";
@@ -27,8 +30,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const rawBody = await getRawBody(req);
 
-    console.log("rawBody", rawBody);
-
     const isValidHook = await validateLemonSqueezyHook({ req, rawBody });
 
     console.log("🍋: isValidHook", isValidHook);
@@ -47,6 +48,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const handlers = {
       [LemonEventType.OrderCreated]: onOrderCreated,
       [LemonEventType.OrderRefunded]: onOrderRefunded,
+      [LemonEventType.SubCreated]: onSubscriptionCreated,
+      [LemonEventType.SubUpdated]: onSubscriptionUpdated,
+      [LemonEventType.SubPaymentSuccess]: onSubscriptionPaymentSuccess,
     };
 
     const foundHandler = handlers[eventType];
