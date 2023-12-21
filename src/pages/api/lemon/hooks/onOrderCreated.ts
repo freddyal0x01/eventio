@@ -34,14 +34,14 @@ export const onOrderCreated = async ({ event }) => {
     },
   });
 
-  const giveUserLifetimeAccess = db.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      hasLifetimeAccess: true,
-    },
-  });
+  // const giveUserLifetimeAccess = db.user.update({
+  //   where: {
+  //     id: userId,
+  //   },
+  //   data: {
+  //     hasLifetimeAccess: true,
+  //   },
+  // });
 
-  return db.$transaction([createOrder, giveUserLifetimeAccess]);
+  return db.$transaction([createOrder]);
 };
