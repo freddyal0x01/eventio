@@ -11,9 +11,6 @@ export const AdminPageBillingTab: BlitzPage = () => {
   const [products] = useQuery(getLemonSqueezyProducts, {});
   const [variants] = useQuery(getLemonSqueezyVariants, {});
 
-  // console.log(products);
-  // console.log(variants);
-
   const rows = products.map((product) => (
     <tr key={product.id}>
       <td>{product.id}</td>
