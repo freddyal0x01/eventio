@@ -9,10 +9,15 @@ import {
   Title,
 } from "@mantine/core";
 import { LemonSqueezySubscriptionStatus } from "@prisma/client";
+import { orderBy } from "lodash";
 import { Vertical } from "mantine-layout-components";
 import getSubscriptions from "src/features/lemon-squeezy-subscriptions/queries/getSubscriptions";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
-import { openUrlInNewTab } from "src/utils/utils";
+import {
+  capitalizeWords,
+  formatToDollars,
+  openUrlInNewTab,
+} from "src/utils/utils";
 
 const Subscription = ({ subscription }) => {
   const statusMap = {
@@ -63,18 +68,17 @@ const Subscription = ({ subscription }) => {
 
   let name = user?.name || user?.username || "";
 
-  let cardBrand = card_brand
-    .split(" ")
-    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    .join(" ");
+  let cardBrand = capitalizeWords(card_brand);
 
   let ccNumber = `**** **** **** ${card_last_four}`;
+
+  const subPrice = formatToDollars(subscription.variant?.price);
 
   return (
     <Card miw={200}>
       <Vertical fullW fullH>
         <Title order={4}>
-          {product_name} - {variant_name}
+          {product_name} @ {subPrice} - {variant_name}
         </Title>
         <Text>Purchased on {formattedDate}</Text>
         <Badge color={foundStatus.color}>{foundStatus.label}</Badge>
@@ -112,10 +116,16 @@ const Subscription = ({ subscription }) => {
 };
 
 const SubscriptionList = ({ subscriptions }) => {
+  const sortedSubscriptions = orderBy(
+    subscriptions,
+    (s) => (s.status === LemonSqueezySubscriptionStatus.active ? 1 : 0),
+    "desc",
+  );
+
   return (
     <Vertical>
       <Text fw={"bold"}>My Subscriptions</Text>
-      {subscriptions.map((subscription) => (
+      {sortedSubscriptions.map((subscription) => (
         <Subscription key={subscription.id} subscription={subscription} />
       ))}
     </Vertical>
