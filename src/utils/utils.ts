@@ -57,3 +57,10 @@ export const formatToDollars = (amount) => {
     maximumFractionDigits: isWholeNumber ? 0 : 2,
   }).format(dollars);
 };
+
+export const capitalizeWords = (words) => {
+  return words
+    .split(" ")
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(" ");
+};
