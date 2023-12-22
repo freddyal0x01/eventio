@@ -1,10 +1,16 @@
 import { BlitzPage } from "@blitzjs/next";
 import { Tabs } from "@mantine/core";
-import { IconMail, IconSettings, IconUserCog } from "@tabler/icons-react";
+import {
+  IconCreditCard,
+  IconMail,
+  IconSettings,
+  IconUserCog,
+} from "@tabler/icons-react";
 import { Vertical } from "mantine-layout-components";
 import Layout from "src/core/layouts/Layout";
-import ChangePassword from "./components/ChangePassword";
-import UserEmailSettings from "./components/UserEmailSettings";
+import SettingsTabBilling from "./components/SettingsTabBilling";
+import SettingsTabChangePassword from "./components/SettingsTabChangePassword";
+import SettingsTabUserEmailSettings from "./components/SettingsTabUserEmailSettings";
 
 export const SettingsPage: BlitzPage = () => {
   return (
@@ -21,18 +27,25 @@ export const SettingsPage: BlitzPage = () => {
             <Tabs.Tab value="settings" icon={<IconSettings size="0.8rem" />}>
               Settings
             </Tabs.Tab>
+            <Tabs.Tab value="billing" icon={<IconCreditCard size="0.8rem" />}>
+              Billing
+            </Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="account" pl="xs">
-            <ChangePassword />
+            <SettingsTabChangePassword />
           </Tabs.Panel>
 
           <Tabs.Panel value="email" pl="xs">
-            <UserEmailSettings />
+            <SettingsTabUserEmailSettings />
           </Tabs.Panel>
 
           <Tabs.Panel value="settings" pl="xs">
             Settings
+          </Tabs.Panel>
+
+          <Tabs.Panel value="billing" pl="xs">
+            <SettingsTabBilling />
           </Tabs.Panel>
         </Tabs>
       </Vertical>
