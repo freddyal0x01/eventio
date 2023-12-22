@@ -27,9 +27,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
+  console.log("req.method is allowed");
+
   try {
     const rawBody = await getRawBody(req);
-
     const isValidHook = await validateLemonSqueezyHook({ req, rawBody });
 
     console.log("🍋: isValidHook", isValidHook);
@@ -42,8 +43,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //@ts-ignore
     const event: ResBody["body"] = JSON.parse(rawBody);
-
     const eventType = event.meta.event_name;
+    console.log("🍋: event type", eventType);
+
+    console.log("event", event);
 
     const handlers = {
       [LemonEventType.OrderCreated]: onOrderCreated,
@@ -58,13 +61,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (foundHandler) {
       try {
         await foundHandler({ event });
-        returnOkay(res);
+        return returnOkay(res);
       } catch (err) {
-        console.log(`🍋 : error in handling ${eventType} event`, err);
+        console.log(`🍋: error in handling ${eventType} event`, err);
         returnError(res);
       }
     } else {
-      console.log(`🍋 : No handler found for ${eventType} event`);
+      console.log(`🍋: no handler found for ${eventType} event`);
     }
 
     console.log("eventType", eventType);

@@ -35,9 +35,9 @@ export default resolver.pipe(
       },
     });
 
-    console.log("Checkout Link", checkoutLink.data.attributes);
     const { url } = checkoutLink.data.attributes;
-    console.log("Checkout Link", url);
+
+    console.log("checkoutLink", url);
 
     return url;
   },

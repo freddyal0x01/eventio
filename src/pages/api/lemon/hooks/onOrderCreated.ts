@@ -1,26 +1,9 @@
 import db from "db";
 import { storePrismaJson } from "src/utils/utils";
+import { getUserIdFromLemonSqueezyEvent } from "../utils";
 
 export const onOrderCreated = async ({ event }) => {
-  let customData = event.meta.custom_data;
-
-  let userId;
-
-  if (customData) {
-    userId = customData.user_id;
-  } else {
-    const foundUser = await db.user.findFirst({
-      where: {
-        email: event.data.attributes.user_email,
-      },
-    });
-
-    if (!foundUser) {
-      throw new Error("User not found");
-    }
-
-    userId = foundUser.id;
-  }
+  const userId = await getUserIdFromLemonSqueezyEvent({ event });
 
   const createOrder = db.lemonSqueezyOrder.create({
     data: {

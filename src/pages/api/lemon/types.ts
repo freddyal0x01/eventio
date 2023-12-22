@@ -1,5 +1,4 @@
 import { NextApiRequest } from "next";
-import { LemonsqueezySubscriptionPause } from "./client/methods/updateSubscription/types";
 
 export enum LemonEventType {
   SubCreated = "subscription_created",

@@ -2,10 +2,6 @@ import db from "db";
 import { storePrismaJson } from "src/utils/utils";
 
 export const onOrderRefunded = async ({ event }) => {
-  console.log("event", event);
-
-  const orderId = event.data.id;
-
   const foundOrder = await db.lemonSqueezyOrder.findFirst({
     where: {
       orderId: event.data.attributes.order_number.toString(),
