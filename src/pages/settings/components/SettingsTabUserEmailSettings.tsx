@@ -3,7 +3,7 @@ import { Vertical } from "mantine-layout-components";
 import ToggleUserSetting from "src/core/components/ToggleUserSetting";
 import getUserEmailSettings from "src/features/users/queries/getUserEmailSettings";
 
-export const UserEmailSettings = () => {
+export const SettingsTabUserEmailSettings = () => {
   const [settings] = useQuery(getUserEmailSettings, {});
 
   return (
@@ -22,4 +22,4 @@ export const UserEmailSettings = () => {
   );
 };
 
-export default UserEmailSettings;
+export default SettingsTabUserEmailSettings;

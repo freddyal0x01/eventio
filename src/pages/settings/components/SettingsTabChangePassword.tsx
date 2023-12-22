@@ -8,7 +8,7 @@ import {
   ChangePasswordInputType,
 } from "src/features/auth/schemas";
 
-export const ChangePassword = () => {
+export const SettingsTabChangePassword = () => {
   const [$changePasswordForLoggedIn, { isLoading, isSuccess }] = useMutation(
     changePasswordForLoggedIn,
   );
@@ -74,4 +74,4 @@ export const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default SettingsTabChangePassword;
