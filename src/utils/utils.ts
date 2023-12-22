@@ -45,3 +45,15 @@ export let openUrlInNewTab = async (url) => {
 export const storePrismaJson = (json) => {
   return JSON.parse(JSON.stringify(json)) as Prisma.JsonObject;
 };
+
+export const formatToDollars = (amount) => {
+  const dollars = amount / 100;
+  const isWholeNumber = dollars % 1 === 0;
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: isWholeNumber ? 0 : 2,
+    maximumFractionDigits: isWholeNumber ? 0 : 2,
+  }).format(dollars);
+};
