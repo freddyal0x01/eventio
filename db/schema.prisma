@@ -94,7 +94,6 @@ enum TokenType {
 }
 
 //Lemon Squeez Schema
-
 model LemonSqueezyOrder {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
