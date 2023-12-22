@@ -67,5 +67,6 @@ export default resolver.pipe(resolver.authorize("ADMIN"), async () => {
   } catch (err) {
     console.log("err", err);
   }
+
   return true;
 });
