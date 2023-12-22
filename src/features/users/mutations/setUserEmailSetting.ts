@@ -1,7 +1,6 @@
 import { hash256 } from "@blitzjs/auth";
 import { resolver } from "@blitzjs/rpc";
-import { TokenType } from "@prisma/client";
-import db from "db";
+import db, { TokenType } from "db";
 import { z } from "zod";
 
 const allowedKeys = z.enum(["settingsEmailMarketing", "settingsEmailProduct"]);

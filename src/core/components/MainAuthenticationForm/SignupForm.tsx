@@ -14,7 +14,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "db";
 import { Vertical } from "mantine-layout-components";
 import Link from "next/link";
 import signup from "src/features/auth/mutations/signup";

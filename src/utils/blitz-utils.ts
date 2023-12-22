@@ -1,7 +1,6 @@
 import { generateToken, hash256 } from "@blitzjs/auth";
-import { TokenType } from "@prisma/client";
 import { addHours } from "date-fns";
-import db from "db";
+import db, { TokenType } from "db";
 import { generateErrorMessage } from "zod-error";
 
 export class PrismaError extends Error {

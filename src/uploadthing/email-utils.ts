@@ -1,4 +1,4 @@
-import { TokenType } from "@prisma/client";
+import { TokenType } from "db";
 import { URL_ORIGIN } from "src/config";
 import { regenerateToken } from "src/utils/blitz-utils";
 
