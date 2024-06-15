@@ -87,5 +87,3 @@ export const AdminPageBillingTab: BlitzPage = () => {
     </Vertical>
   );
 };
-
-export default AdminPageBillingTab;

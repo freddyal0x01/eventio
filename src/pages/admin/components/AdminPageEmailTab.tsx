@@ -212,5 +212,3 @@ export const AdminPageEmailTab: BlitzPage = () => {
     </Horizontal>
   );
 };
-
-export default AdminPageEmailTab;

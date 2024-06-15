@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ErrorBoundary FallbackComponent={RootErrorFallback}>
             <Notifications position="top-right" />
             <Suspense fallback={<FullPageLoader />}>
-              {<Component {...pageProps} />}
+              <Component {...pageProps} />
             </Suspense>
           </ErrorBoundary>
         </ModalsProvider>
