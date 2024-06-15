@@ -15,6 +15,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { ReactNode, Suspense } from "react";
 
+import { ImpersonationHeader } from "src/features/admin/components/ImpersonationHeader";
 import { useCurrentUser } from "src/features/users/hooks/useCurrentUser";
 import { GlobalModal } from "src/modals";
 import { ReactFC } from "types";
@@ -67,9 +68,8 @@ const Layout: ReactFC<{
                   <Horizontal center spacing="xs">
                     <Horizontal>
                       <UserHeaderMenu />
-                      {/* <Text>{user.name}</Text> */}
-
                       <UserProfileProgress />
+                      <ImpersonationHeader />
                     </Horizontal>
                     <Badge
                       onClick={() => {
