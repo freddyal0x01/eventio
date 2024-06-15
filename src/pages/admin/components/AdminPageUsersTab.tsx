@@ -1,10 +1,12 @@
 import { BlitzPage } from "@blitzjs/next";
 import { useMutation, useQuery } from "@blitzjs/rpc";
-import { Button, Table, Title } from "@mantine/core";
+import { Button, Pagination, Table, Title } from "@mantine/core";
+import { usePagination } from "@mantine/hooks";
 import { Vertical } from "mantine-layout-components";
 import { useRouter } from "next/router";
 import impersonateUser from "src/features/admin/mutations/impersonateUser";
 import getAllUsers from "src/features/admin/queries/getAllUsers";
+import getUserCount from "src/features/admin/queries/getUserCount";
 
 const UserRow = ({ user }) => {
   const [$impersonateUser, { isLoading }] = useMutation(impersonateUser);
@@ -33,7 +35,15 @@ const UserRow = ({ user }) => {
 };
 
 export const AdminPageUsersTab: BlitzPage = () => {
-  const [users] = useQuery(getAllUsers, {});
+  const usersPerPage = 25;
+  const [userCount] = useQuery(getUserCount, {});
+  const totalPages = Math.ceil(userCount / usersPerPage);
+  const pagination = usePagination({ total: totalPages, initialPage: 1 });
+
+  const [users] = useQuery(getAllUsers, {
+    usersPerPage,
+    activePage: pagination.active,
+  });
 
   const userRows = users.map((user) => <UserRow key={user.id} user={user} />);
 
@@ -54,6 +64,11 @@ export const AdminPageUsersTab: BlitzPage = () => {
           </thead>
           <tbody>{userRows}</tbody>
         </Table>
+        <Pagination
+          onChange={pagination.setPage}
+          value={pagination.active}
+          total={totalPages}
+        />
       </Vertical>
     </Vertical>
   );

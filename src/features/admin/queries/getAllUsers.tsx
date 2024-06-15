@@ -2,18 +2,23 @@ import { resolver } from "@blitzjs/rpc";
 import db from "db";
 import { z } from "zod";
 
-const Input = z.object({});
+const Input = z.object({
+  usersPerPage: z.number(),
+  activePage: z.number(),
+});
 
 export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize("ADMIN"),
-  async () => {
+  async ({ usersPerPage, activePage }) => {
     return db.user.findMany({
-      // where: { id },
+      take: usersPerPage,
+      skip: usersPerPage * (activePage - 1),
       select: {
         id: true,
         name: true,
         username: true,
+
         email: true,
         subscriptions: {
           select: {
