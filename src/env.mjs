@@ -16,6 +16,7 @@ export const env = createEnv({
     LEMONSQUEEZY_WEBHOOK_SECRET: z.string(),
     LEMONSQUEEZY_API_KEY: z.string(),
     LEMONSQUEEZY_STORE_ID: z.string(),
+    LOCAL_IP_ADDRESS: z.string().optional(),
   },
   /*
    * Environment variables available on the client (and server).
@@ -48,5 +49,6 @@ export const env = createEnv({
     NEXT_PUBLIC_LEMONSQUEEZY_MONTHLY_PLAN_VARIANT_ID:
       process.env.NEXT_PUBLIC_LEMONSQUEEZY_MONTHLY_PLAN_VARIANT_ID,
     LEMONSQUEEZY_STORE_ID: process.env.LEMONSQUEEZY_STORE_ID,
+    LOCAL_IP_ADDRESS: process.env.LOCAL_IP_ADDRESS,
   },
 });
