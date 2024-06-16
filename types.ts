@@ -10,8 +10,14 @@ declare module "@blitzjs/auth" {
     PublicData: {
       userId: User["id"];
       role: Role;
-      impersonatingFromUserId: string;
+      impersonatingFromUserId?: string;
     };
+  }
+}
+
+declare module "blitz" {
+  export interface Ctx {
+    ipAddress: string;
   }
 }
 
